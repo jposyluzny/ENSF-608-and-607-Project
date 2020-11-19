@@ -5,14 +5,6 @@
 *   ENSF 607 - Assignment 3 - Exercise 1
 */
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -149,90 +141,5 @@ public class Inventory {
             System.out.println(toolInventory.get(i).toString());
         }
     }
- 
-    public static Connection getConnection() throws Exception {
-        String driver = "com.mysql.cj.jdbc.Driver";
-        String url = "jdbc:mysql://localhost:3306/608607Project";
-        String username = "root";
-        String password = "Goodfellas13!";
-
-        Class.forName(driver);
-        Connection conn = DriverManager.getConnection(url, username, password); // The format is: "jdbc:mysql://hostname:port/databaseName", "username", "password"
-        System.out.println("Connected to: " + url);
-        return conn;
-      }
-    
-    private static void dropTable(Statement stmt, String tableName) {
-    	try {
-			stmt.executeUpdate("DROP TABLE " + tableName);
-			
-		} catch (SQLException e) {
-			System.err.println("ERROR DROPPING TABLE " + tableName);
-		}
-    	
-    }
-    
-    private static final String CREATE_ITEM_TABLE="CREATE TABLE ToolTable ("
-    		+ "ID INT NOT NULL,"
-    		+ "NAME VARCHAR(15) NOT NULL,"
-    		+ "QUANTITY INT NOT NULL,"
-    		+ "PRICE DECIMAL(10,2) NOT NULL,"
-    		+ "SUPPLIERID INT NOT NULL);";
-  
-    
-    public static void main(String[] args) {
-    	String fileName = "items.txt";
-    	
-    	FileInputStream fis = null;
-        Statement stmt = null;
-        Connection conn = null;
-    	try {
-    		conn = getConnection(); // connect to database
-    		// create Tool table
-    		stmt = conn.createStatement();
-    		dropTable(stmt, "items");
-    		
-    		try {
-	    		stmt.executeUpdate(CREATE_ITEM_TABLE);
-	    		System.out.println("Created Table ToolTable");
-    		}
-    		catch(Exception e) {
-    			System.err.print("ERROR CREATING TABLE");
-    		}
-	        // Step 1: Allocate a database 'Connection' object
-	                     
-//	        conn.setAutoCommit(false);
-//	        File file = new File(fileName);
-//	        fis = new FileInputStream(file);
-//	        stmt = conn.prepareStatement("INSERT INTO items)
-	        // Step 2: Allocate a 'Statement' object in the Connection
-////    	} {
-//	         // Step 3: Execute a SQL SELECT query. The query result is returned in a 'ResultSet' object.
-//	         String strSelect = "select title, price, qty from books";
-//	         System.out.println("The SQL statement is: " + strSelect + "\n"); // Echo For debugging
-//	 
-//	         ResultSet rset = stmt.executeQuery(strSelect);
-//	 
-//	         // Step 4: Process the ResultSet by scrolling the cursor forward via next().
-//	         //  For each row, retrieve the contents of the cells with getXxx(columnName).
-//	         System.out.println("The records selected are:");
-//	         int rowCount = 0;
-//	         while(rset.next()) {   // Move the cursor to the next row, return false if no more row
-//	            String title = rset.getString("title");
-//	            double price = rset.getDouble("price");
-//	            int    qty   = rset.getInt("qty");
-//	            System.out.println(title + ", " + price + ", " + qty);
-//	            ++rowCount;
-//	         }
-//	         System.out.println("Total number of records = " + rowCount);
-	 
-	      } catch(SQLException ex) {
-	         ex.printStackTrace();
-	      }  // Step 5: Close conn and stmt - Done automatically by try-with-resources (JDK 7)
- catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	   }
-    
 }
+ 

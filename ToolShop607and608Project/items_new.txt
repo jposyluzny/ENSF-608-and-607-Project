@@ -1,0 +1,41 @@
+1000;Non-Electrical;Knock Bits;88;12.67;8015
+1001;Electrical;Widgets;10;35.50;8004
+1002;Non-Electrical;Grommets;20;23.45;8001
+1003;Non-Electrical;Wedges;15;10.15;8020
+1004;Electrical;Wing Bats;11;11.25;8003
+1005;Non-Electrical;Twinkies;75;15.75;8012
+1006;Non-Electrical;Wiggles;30;12.34;8020
+1007;Electrical;Bing Bobs;25;2.39;8005
+1008;Electrical;Wog Wits;300;19.99;8004
+1009;Non-Electrical;Barney Bits;21;23.59;8006
+1010;Electrical;Willie Widgits;89;12.99;8003
+1011;Non-Electrical;Barge Bogs;35;2.99;8011
+1012;Electrical;Poggy Pogs;99;1.10;8002
+1013;Electrical;Pardle Pins;400;0.69;8013
+1014;Non-Electrical;Piddley Wicks;54;5.19;8013
+1015;Electrical;Iggy Orks;22;49.95;8010
+1016;Non-Electrical;Crank Cribs;888;0.29;8005
+1017;Electrical;Thingies;67;45.98;8008
+1018;Electrical;Orf Dappers;32;19.98;8018
+1019;Electrical;Piff Knocks;82;4.95;8002
+1020;Electrical;Knit Piks;66;6.75;8015
+1021;Electrical;Piddley Pins;370;0.25;8020
+1022;Non-Electrical;Tic Tocs;87;1.36;8014
+1023;Electrical;Tin Wits;23;5.67;8014
+1024;Electrical;Thinga-ma-bobs;40;10.98;8012
+1025;Non-Electrical;Fling Flobs;254;2.33;8009
+1026;Electrical;Barn Bins;45;88.67;8006
+1027;Electrical;Flap Wrappers;89;44.88;8009
+1028;Electrical;Pong Pangs;2345;0.10;8002
+1029;Electrical;Oof Tongs;345;8.49;8011
+1030;Electrical;Nic Nacs;238;2.99;8015
+1031;Non-Electrical;Tork Tins;376;0.95;8012
+1032;Electrical;Lilly Larks;56;12.99;8007
+1033;Electrical;Minnie Morks;800;1.95;8007
+1034;Electrical;Cork Handles;654;2.66;8016
+1035;Electrical;Ding Darns;1208;0.15;8019
+1036;Electrical;Erk Orks;498;3.99;8017
+1037;Non-Electrical;Foo Figs;234;5.89;8018
+1038;Electrical;Googly Eyes;756;6.99;8001
+1039;Non-Electrical;Handy Pandies;321;4.35;8017
+1040;Non-Electrical;Inny Outies;219;3.45;8010
