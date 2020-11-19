@@ -2,6 +2,9 @@ package server.controller;
 
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import server.Model.Shop;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
@@ -46,6 +49,7 @@ public class ServerController {
 
     public static void main(String [] args) {
         ServerController server = new ServerController();
+        new ServerModelController(server, new DBController(new InventoryDBController(), new CustomerDBController(), new OrderDBController()), new Shop());
         server.communicate();
     }
 
