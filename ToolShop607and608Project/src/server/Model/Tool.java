@@ -1,10 +1,11 @@
 package server.Model;
 
-public class Tool {
-	
-	/**
-     * This information will be tool specific.
-     */
+import java.io.Serializable;
+
+
+public class Tool implements Serializable {
+
+	private static final long serialVersionUID = 1L;
     private String toolName;
     private int quantity, supplierID, toolID;
     private double price;
@@ -68,7 +69,7 @@ public class Tool {
     }
 
     /**
-     * This will override the toString method to allow each Tools unqiue information to be displayed.
+     * This will override the toString method to allow each Tools unique information to be displayed.
      */
     @Override
     public String toString() {

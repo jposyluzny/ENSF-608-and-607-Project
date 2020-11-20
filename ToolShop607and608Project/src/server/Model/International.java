@@ -2,6 +2,7 @@ package server.Model;
 
 public class International extends Supplier {
 	
+	private static final long serialVersionUID = 21L;
 	private String type;
 	private double importTax;
 	

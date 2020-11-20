@@ -1,5 +1,7 @@
 package client.controller;
 
+import server.Model.*;
+
 import java.net.Socket;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,9 +17,11 @@ public class ClientController {
     private ObjectInputStream socketInObjects;
     private BufferedReader socketInStrings;
     private PrintWriter socketOut;
+    
+    public String response = "";
 
     //FOR TESTING ONLY
-    private BufferedReader stdIn;
+    public BufferedReader stdIn;
     
     public ClientController() {
         try {
@@ -31,28 +35,15 @@ public class ClientController {
         } catch (IOException e) {
             System.err.print(e.getStackTrace());
         }
-        finally {
-        	this.close();
-        }
     }
-
+    
+    //TODO: THREAD PER USER
     public void communicate() {
-        boolean flag = true;
-
-        //TESTING ONLY
-        String response = "";
-
-        try {
-            while (flag) {
-                System.out.println("Please enter some bullshit:");
-                response = stdIn.readLine();
-                socketOut.println(response);
-                response = socketInStrings.readLine();
-                System.out.println(response);
+            while (true) {
+                if (response.equals("Quit"))
+                	break;
             }
-        } catch (IOException e) {
-            System.err.println(e.getStackTrace());
-        }
+        	this.close();
     }
     
     public void close() {
@@ -64,9 +55,34 @@ public class ClientController {
     		System.err.println(e.getStackTrace());
     	}
     }
+    
+	public ObjectInputStream getSocketInObjects() {
+		return socketInObjects;
+	}
+
+	public void setSocketInObjects(ObjectInputStream socketInObjects) {
+		this.socketInObjects = socketInObjects;
+	}
+
+	public BufferedReader getSocketInStrings() {
+		return socketInStrings;
+	}
+
+	public void setSocketInStrings(BufferedReader socketInStrings) {
+		this.socketInStrings = socketInStrings;
+	}
+
+	public PrintWriter getSocketOut() {
+		return socketOut;
+	}
+
+	public void setSocketOut(PrintWriter socketOut) {
+		this.socketOut = socketOut;
+	}
 
     public static void main(String [] args) {
         ClientController client = new ClientController();
+        new ClientModelController(client);
         client.communicate();
     }
 

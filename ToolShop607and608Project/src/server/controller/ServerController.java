@@ -20,6 +20,11 @@ public class ServerController {
     private ObjectOutputStream socketOutObjects;
     private PrintWriter socketOut;
     
+    public String response = "";
+    
+    //FOR TESTING
+    private BufferedReader stdIn;
+    
     public ServerController() {
         try {
             serverSocket = new ServerSocket(PORT);
@@ -27,6 +32,9 @@ public class ServerController {
             socketInStrings = new BufferedReader(new InputStreamReader(sSocket.getInputStream()));
             socketOutObjects = new ObjectOutputStream(sSocket.getOutputStream());
             socketOut = new PrintWriter(sSocket.getOutputStream(), true);
+            
+            //TESTING PURPOSES ONLY
+            stdIn = new BufferedReader(new InputStreamReader(System.in));
         } catch (IOException e) {
             System.err.print(e.getStackTrace());
         }
@@ -34,21 +42,11 @@ public class ServerController {
 
     //TODO: THREAD PER USER
     public void communicate() {
-        boolean flag = true;
-        String response = "";
-        try {
-            while (flag) {
-                response = socketInStrings.readLine();
-                System.out.println(response);
-                response += "ADDED ON SERVER SIDE";
-                socketOut.println(response);
+            while (true) {
+                if (response.equals("Quit"))
+                	break;
             }
-        } catch (IOException e) {
-            System.err.println(e.getStackTrace());
-        }
-        finally {
         	this.close();
-        }
     }
     
     public void close() {
@@ -61,7 +59,27 @@ public class ServerController {
     		System.err.println(e.getStackTrace());
     	}
     }
+    
+    public BufferedReader getSocketInStrings() {
+    	return socketInStrings;
+    }
 
+	public ObjectOutputStream getSocketOutObjects() {
+		return socketOutObjects;
+	}
+
+	public void setSocketOutObjects(ObjectOutputStream socketOutObjects) {
+		this.socketOutObjects = socketOutObjects;
+	}
+
+	public PrintWriter getSocketOut() {
+		return socketOut;
+	}
+
+	public void setSocketOut(PrintWriter socketOut) {
+		this.socketOut = socketOut;
+	}
+	
     public static void main(String [] args) {
         ServerController server = new ServerController();
         new ServerModelController(server, new DBController(new InventoryDBController(), new CustomerDBController(), new OrderDBController()), new Shop());

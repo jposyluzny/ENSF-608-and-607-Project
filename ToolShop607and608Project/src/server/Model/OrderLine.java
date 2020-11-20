@@ -1,8 +1,11 @@
 package server.Model;
 
-public class OrderLine {
+import java.io.Serializable;
+
+public class OrderLine implements Serializable {
 	
-    private int orderID, toolID, supplierID, orderQuantity;
+	private static final long serialVersionUID = 5L;
+	private int orderID, toolID, supplierID, orderQuantity;
     
     public OrderLine(int orderID, int toolID, int supplierID, int orderQuantity) {
         this.setOrderID(orderID);

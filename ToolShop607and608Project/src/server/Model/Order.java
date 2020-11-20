@@ -1,12 +1,14 @@
 package server.Model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
-public class Order {
+public class Order implements Serializable {
 	
+	private static final long serialVersionUID = 4L;
 	private ArrayList <OrderLine> orderLines;
 	private int orderID;
 	private String date;

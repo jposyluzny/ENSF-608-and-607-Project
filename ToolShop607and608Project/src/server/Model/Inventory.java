@@ -15,28 +15,22 @@ public class Inventory {
     //TODO: fix case sensitivity when comparing strings
 	public void buildTool(String toolName, int quantity, double price, int supplierID, int toolID, String type, String powerInfo) {
 		if (type.equals("Electrical")) 
-        	this.addToolToList(this.createElectrical(toolName, quantity, price, supplierID, toolID, type, powerInfo));
+        	this.addToolToList(new Electrical(toolName, quantity, price, supplierID, toolID, type, powerInfo));
         else if (type.equals("Non-Electrical")) 
-        	this.addToolToList(this.createNonElectrical(toolName, quantity, price, supplierID, toolID, type));
+        	this.addToolToList(new NonElectrical(toolName, quantity, price, supplierID, toolID, type));
         else 
         	System.err.println("CUSTOMER TYPE DOES NOT EXIST");
     }
 	
-	public Tool createElectrical(String toolName, int quantity, double price, int supplierID, int toolID, String type, String powerInfo) {
-		Tool tool = new Electrical (toolName, quantity, price, supplierID, toolID, type, powerInfo);
-    	return tool;
-	}
-	
-	public Tool createNonElectrical(String toolName, int quantity, double price, int supplierID, int toolID, String type) {
-		Tool tool = new NonElectrical (toolName, quantity, price, supplierID, toolID, type);
-    	return tool;
-	}
-	
 	public void newOrder() {
-		if (this.order == null)
+		if (this.getOrder() == null)
 			this.setOrder(new Order());
-		else if (this.order.checkToCreateNewOrder())
+		else if (this.getOrder().checkToCreateNewOrder())
 			this.setOrder(new Order());
+	}
+	
+	public void clearList() {
+		this.getToolInventory().clear();
 	}
 	
 	public void buildOrderLine(int toolID, int supplierID, int orderQuantity) {

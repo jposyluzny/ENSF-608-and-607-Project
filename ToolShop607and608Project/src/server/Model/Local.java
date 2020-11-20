@@ -1,7 +1,8 @@
 package server.Model;
 
 public class Local extends Supplier {
-	
+
+	private static final long serialVersionUID = 22L;
 	private String type;
 	
 	public Local (String name, String address, String contactInfo, int supplierID, String type) {

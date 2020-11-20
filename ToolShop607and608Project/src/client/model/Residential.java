@@ -1,4 +1,4 @@
-package server.Model;
+package client.model;
 
 public class Residential extends Customer {
 	

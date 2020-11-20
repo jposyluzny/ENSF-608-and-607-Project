@@ -2,6 +2,7 @@ package server.Model;
 
 public class Commercial extends Customer {
 	
+	private static final long serialVersionUID = 31L;
 	private String type;
 
 	public Commercial(int customerID, String firstName, String lastName, String address, String postalCode, String phoneNumber, String type) {

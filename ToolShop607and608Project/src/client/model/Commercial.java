@@ -1,11 +1,11 @@
-package server.Model;
+package client.model;
 
-public class Residential extends Customer {
+public class Commercial extends Customer {
 	
-	private static final long serialVersionUID = 32L;
+	private static final long serialVersionUID = 31L;
 	private String type;
 
-	public Residential(int customerID, String firstName, String lastName, String address, String postalCode,String phoneNumber, String type) {
+	public Commercial(int customerID, String firstName, String lastName, String address, String postalCode, String phoneNumber, String type) {
 		super(customerID, firstName, lastName, address, postalCode, phoneNumber);
 		this.setType(type);
 	}

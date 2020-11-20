@@ -1,10 +1,10 @@
 package server.Model;
 
-public class Supplier {
+import java.io.Serializable;
+
+public class Supplier implements Serializable {
 	
-	/**
-     * This information will be supplier specific.
-     */
+	private static final long serialVersionUID = 2L;
     private String name, address, contactInfo;
     private int supplierID;
 
