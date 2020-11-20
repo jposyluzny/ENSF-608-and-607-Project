@@ -45,8 +45,8 @@ public class OrderLine {
 	
 	@Override
 	public String toString() {
-		return "".format("\nOrder ID: %d\tTool ID: %d\tSupplier ID: %d\tOrder Quantity: %d",this.getOrderID(),this.getToolID(),
-				this.getSupplierID(),this.getOrderQuantity());
+		return "".format("\nOrder ID: %d\nTool ID: %d\nSupplier ID: %d\nOrder Quantity: %d", this.getOrderID(), this.getToolID(),
+				this.getSupplierID(), this.getOrderQuantity());
 	}
 
 }

@@ -12,25 +12,36 @@ public class Order {
 	private String date;
 	
 	public Order() {
-		orderLines = new ArrayList <OrderLine> ();
+		this.setOrderLines(new ArrayList <OrderLine> ());
 		this.setOrderID(this.generate5DigitOrderID());
 		this.setDate(this.generateCurrentDateTime());
 	}
 	
-	public void createNewOrder(int toolID, int supplierID, int orderQuantity) {
+	public void createNewOrderLine(int toolID, int supplierID, int orderQuantity) {
         OrderLine orderLine = new OrderLine(this.getOrderID(), toolID, supplierID, orderQuantity);
-        orderLines.add(orderLine);
+        this.addOrderLineToList(orderLine);
+	}
+	
+	public boolean checkToCreateNewOrder() {
+		if (this.getDate().equals(this.generateCurrentDateTime()))
+			return false;
+		else
+			return true;
 	}
 
     private int generate5DigitOrderID() {
-        Random rand = new Random();
-        return rand.nextInt(99999)+10000;
+    	Random rand = new Random();
+        return rand.nextInt(99999) + 10000;
     }
-
+    
     private String generateCurrentDateTime() {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             Date date = new Date();
             return formatter.format(date);
+    }
+    
+    public void addOrderLineToList(OrderLine orderLine) {
+    	this.getOrderLines().add(orderLine);
     }
     
 	public int getOrderID() {
@@ -47,6 +58,19 @@ public class Order {
 
 	public void setDate(String date) {
 		this.date = date;
+	}
+
+	public ArrayList <OrderLine> getOrderLines() {
+		return orderLines;
+	}
+
+	public void setOrderLines(ArrayList <OrderLine> orderLines) {
+		this.orderLines = orderLines;
+	}
+	
+	@Override
+	public String toString() {
+		return "".format("\nOrder ID: %d\nOrder Date: %s", this.getOrderID(), this.getDate());
 	}
 
 }

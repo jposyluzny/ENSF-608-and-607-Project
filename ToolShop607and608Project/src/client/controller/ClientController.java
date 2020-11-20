@@ -31,6 +31,9 @@ public class ClientController {
         } catch (IOException e) {
             System.err.print(e.getStackTrace());
         }
+        finally {
+        	this.close();
+        }
     }
 
     public void communicate() {
@@ -50,6 +53,16 @@ public class ClientController {
         } catch (IOException e) {
             System.err.println(e.getStackTrace());
         }
+    }
+    
+    public void close() {
+    	try {
+    		socketInObjects.close();
+    		socketInStrings.close();
+    		socketOut.close();
+    	} catch (IOException e) {
+    		System.err.println(e.getStackTrace());
+    	}
     }
 
     public static void main(String [] args) {

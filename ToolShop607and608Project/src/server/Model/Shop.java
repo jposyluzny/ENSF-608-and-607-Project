@@ -24,6 +24,10 @@ public class Shop {
     	this.getCm().buildCustomer(customerID, firstName, lastName, address, postalCode, phoneNumber, type);
     }
     
+    public void buildOrderLine(int toolID, int supplierID, int orderQuantity) {
+		this.getIm().buildOrderLine(toolID, supplierID, orderQuantity);
+	}
+    
 	public Inventory getIm() {
 		return im;
 	}

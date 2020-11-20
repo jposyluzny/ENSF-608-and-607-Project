@@ -32,6 +32,7 @@ public class ServerController {
         }
     }
 
+    //TODO: THREAD PER USER
     public void communicate() {
         boolean flag = true;
         String response = "";
@@ -45,6 +46,20 @@ public class ServerController {
         } catch (IOException e) {
             System.err.println(e.getStackTrace());
         }
+        finally {
+        	this.close();
+        }
+    }
+    
+    public void close() {
+    	try {
+    		serverSocket.close();
+    		socketInStrings.close();
+    		socketOutObjects.close();
+    		socketOut.close();
+    	} catch (IOException e) {
+    		System.err.println(e.getStackTrace());
+    	}
     }
 
     public static void main(String [] args) {

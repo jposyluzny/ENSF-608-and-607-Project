@@ -45,7 +45,15 @@ public class ServerModelController {
 		for (server.Model.Supplier i: shop.getSm().getSupplierList()) {
 			System.out.println(i);
 		}
-		System.out.println("End of testing");
+		
+		this.shop.buildOrderLine(1243521, 6006001, 32);
+		this.shop.buildOrderLine(9281623, 1001008, 17);
+		System.out.println(shop.getIm().getOrder());
+		for (server.Model.OrderLine i: shop.getIm().getOrder().getOrderLines()) {
+			System.out.println(i);
+		}
+		
+		System.out.println("\nEnd of testing");
 	}
 	//
 	//
@@ -94,4 +102,5 @@ public class ServerModelController {
 		ServerModelController smc = new ServerModelController();
 		smc.run();
 	}
+	
 }
