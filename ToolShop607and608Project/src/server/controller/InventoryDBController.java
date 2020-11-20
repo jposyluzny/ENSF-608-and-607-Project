@@ -19,10 +19,6 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	private Statement stmt;
 	private ResultSet rs;
 	
-	public InventoryDBController()
-	{
-	}
-
 	public void connect() {
 		try {
 			Driver driver = new com.mysql.cj.jdbc.Driver();
@@ -45,7 +41,7 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	}
 	
 	public void createToolTable() {
-		String toolTable = "CREATE TABLE IF NOT EXISTS ToolTable("
+		String toolTable = "CREATE TABLE IF NOT EXISTS TOOLTABLE("
 	    		+ "TOOLID INT NOT NULL,"
 	    		+ "NAME VARCHAR(15) NOT NULL,"
 	    		+ "QUANTITY INT NOT NULL,"
@@ -65,8 +61,8 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	
 	public void insertIntoToolTable(int id, String name, int quantity, double price, int supplierId, String type, String powerType) {
 		try {
-			String insert = "INSERT INTO TOOLTABLE(TOOLID, NAME, QUANTITY, PRICE, SUPPLIERID, TYPE, POWERTYPE) VALUES (?,?,?,?,?,?,?)";
-			pstmt = conn.prepareStatement(insert);
+			String insertTool = "INSERT INTO TOOLTABLE(TOOLID, NAME, QUANTITY, PRICE, SUPPLIERID, TYPE, POWERTYPE) VALUES (?,?,?,?,?,?,?)";
+			pstmt = conn.prepareStatement(insertTool);
 			pstmt.setInt(1, id);
 			pstmt.setString(2, name);
 			pstmt.setInt(3, quantity);
@@ -94,6 +90,17 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean checkPopulated(ResultSet rs) {
+		try {
+			if(rs.isBeforeFirst()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public String[] resultsToArray(ResultSet rs) {
@@ -127,6 +134,7 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	}
 	
 	public void printArray(String[] arr) {
+		System.out.println("");
 		for(int i = 0; i < arr.length; i++) {
 			System.out.print(arr[i] + " ");
 		}
@@ -143,7 +151,7 @@ public class InventoryDBController implements ConnectDetailsContainer{
 				}
 			}
 			else {
-				System.out.println("Search failed to find data in ToolTable");
+				System.out.println("\nSearch failed to find data in ToolTable");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -152,76 +160,33 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		return toolList;
 	}
 	
-	public String[] queryByName(String name) {
+	public String[] executeToolQuery(String queryTool) {
 		String[] toolInfo = null;
-		String queryName = "SELECT * FROM ToolTable WHERE NAME = '" +name+ "'";
 		try {
-			rs = pstmt.executeQuery(queryName);
-			if(rs.next()) {
+			rs = pstmt.executeQuery(queryTool);
+			if(rs.isBeforeFirst()) {
+				rs.next();
 				toolInfo = resultsToArray(rs);
+				printArray(toolInfo);
 			}
+
 			else {
-				System.out.println("Search failed to find " + name);
+				System.out.println("\nSearch failed to find tool");
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		printArray(toolInfo);
 		return toolInfo;
+	}
+	
+	public String[] queryByName(String toolName) {
+		String queryName = "SELECT * FROM TOOLTABLE WHERE NAME = '" +toolName+ "'";
+		return executeToolQuery(queryName);
 	}
 	
 	public String[] queryById(int id) {
-		String[] toolInfo = null;
-		String queryName = "SELECT * FROM ToolTable WHERE TOOLID = " +id+ "";
-		try {
-			rs = pstmt.executeQuery(queryName);
-			if(rs.next()) {
-				toolInfo = resultsToArray(rs);
-			}
-			else {
-				System.out.println("Search failed to find " + id);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		printArray(toolInfo);
-		return toolInfo;
-	}
-	
-	public int queryQuantityByName(String name) {
-		int quantity = 0;
-		String queryQuantity = "SELECT QUANTITY FROM ToolTable WHERE NAME ='" +name+"'";
-		try {
-			rs = pstmt.executeQuery(queryQuantity);
-			if(rs.next()){
-				quantity = rs.getInt("QUANTITY");
-			}
-			else {
-				System.out.println("Search failed to find " + name);
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println("\n" +quantity);
-		return quantity;
-	}
-	
-	public int queryQuantityById(int id) {
-		int quantity = 0;
-		String queryQuantity = "SELECT QUANTITY FROM ToolTable WHERE TOOLID =" +id+"";
-		try {
-			rs = pstmt.executeQuery(queryQuantity);
-			if(rs.next()){
-				quantity = rs.getInt("QUANTITY");
-			}
-			else {
-				System.out.println("Search failed to find " + id);
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println("\n" +quantity);
-		return quantity;
+		String queryId = "SELECT * FROM TOOLTABLE WHERE TOOLID = " +id+ "";
+		return executeToolQuery(queryId);
 	}
 	
 	public static void main(String[] args) {
@@ -232,8 +197,7 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		idbc.populateToolTable(toolFileName);
 		idbc.queryAllTools();
 		idbc.queryByName("Barn Bins");
-		idbc.queryQuantityByName("Oof Tongs");
-		idbc.queryQuantityById(1024);
-		
+		idbc.queryById(1035);
+		idbc.queryById(4000);
 	}
 }
