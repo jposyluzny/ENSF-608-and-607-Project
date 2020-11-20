@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import com.mysql.cj.jdbc.Driver;
+import java.util.ArrayList;
 
 public class InventoryDBController implements ConnectDetailsContainer{
 	
@@ -50,8 +51,8 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	    		+ "NAME VARCHAR(15) NOT NULL,"
 	    		+ "QUANTITY INT NOT NULL,"
 	    		+ "PRICE DECIMAL(10,2) NOT NULL,"
-	    		+ "SUPPLIERID INT NOT NULL)"
-	    		+ "PRIMARY KEY (TOOLID);";
+	    		+ "SUPPLIERID INT NOT NULL,"
+	    		+ "PRIMARY KEY (TOOLID));";
 		try {
 			stmt = conn.createStatement();
 			stmt.executeUpdate(toolTable);
@@ -71,8 +72,8 @@ public class InventoryDBController implements ConnectDetailsContainer{
 			pstmt.setInt(4, quantity);
 			pstmt.setDouble(5, price);
 			pstmt.setInt(6, supplier_id);
+			pstmt.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -93,11 +94,63 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		}
 	}
 	
+	public void resultsToArray(ArrayList<String[]> arrList, ResultSet rs) {
+		String[] arr = null;
+		try {
+			while(rs.next()) {
+				arr = new String[6];
+				arr[0] = rs.getString(1);
+				arr[1] = rs.getString(2);
+				arr[2] = rs.getString(3);
+				arr[3] = rs.getString(4);
+				arr[4] = rs.getString(5);
+				arr[5] = rs.getString(6);
+				arrList.add(arr);
+			}
+		} catch(SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void printArrayList(ArrayList<String[]> arrList) {
+		for(int i = 0; i < arrList.size(); i++) {
+			String id = arrList.get(i)[0];
+			String type = arrList.get(i)[1];
+			String name = arrList.get(i)[2];
+			String quantity = arrList.get(i)[3];
+			String price = arrList.get(i)[4];
+			String supplierid = arrList.get(i)[5];
+			System.out.println(id + " " + type + " " + name + " " + quantity + " " + price + " " + supplierid);
+		}
+	}
+	
+	public ArrayList<String[]> queryAllTools() {
+		ArrayList<String[]> toolList = new ArrayList<String[]>();
+		String queryAllTools = "SELECT * FROM ToolTable;";
+		try {
+			rs = pstmt.executeQuery(queryAllTools);
+			if(rs.isBeforeFirst()) {
+				resultsToArray(toolList, rs);
+			}
+			else {
+				System.out.println("Search failed to find data in ToolTable");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		printArrayList(toolList);
+		return toolList;
+	}
+	
+	public String[] queryByName()
+	
 	public static void main(String[] args) {
 		String toolFileName = "items_new.txt";
 		InventoryDBController idbc = new InventoryDBController();
 		idbc.connect();
 		idbc.createToolTable();
 		idbc.populateToolTable(toolFileName);
+		idbc.queryAllTools();
 	}
 }
