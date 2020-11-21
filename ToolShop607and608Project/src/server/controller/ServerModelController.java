@@ -3,10 +3,10 @@ package server.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import server.Model.Shop;
 import server.Model.Tool;
-import sun.tools.tree.ThisExpression;
 
 public class ServerModelController {
 	
@@ -18,10 +18,9 @@ public class ServerModelController {
 		this.setServerController(server);
 		this.setDataBaseController(dataBaseController);
 		this.setShop(shop);
-		this.run();
 	}
 
-	//FOR TESTING ************************************************************************************************
+	//TESTING *************************************************************************************************************
 	//
 	//
 	//
@@ -30,64 +29,74 @@ public class ServerModelController {
 	//
 	//
 	//
-//	public ServerModelController() {
-//		shop = new Shop();
-//	}
-	
+	//
+	//
+	//THIS WILL NEED TO BE REFACTORED
 	public void run() {
+		//TESTING????
+		String input = "";
 		try {
-		while (true) {
-			System.out.println("At top of while loop");
-			serverController.response = serverController.getSocketInStrings().readLine();
-		if (serverController.response.equals("Tool")) {
-			this.shop.buildTool("Dinko Hammer", 160, 4.20, 123456789, 42069, "Electrical", "THIS MFR REALLY HAS ELECTRICAL");
-			this.shop.buildTool("Bupkis", 122, 0.01, 000000001, 234525, "Non-Electrical", null);
-			serverController.getSocketOut().println("Tool");
-			serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(1));
+			while (true) {
+				input = serverController.getSocketInStrings().readLine();
+				String name = serverController.getSocketInStrings().readLine();
+//				int id = Integer.parseInt(serverController.getSocketInStrings().readLine());
+				if (input.equals("List all Tools")) {
+					serverController.getSocketOut().println("List all Tools");
+					ArrayList<String[]> arr = dataBaseController.getIdbController().queryAllTools();
+					for (String[] i: arr) {
+						this.getShop().buildTool(Integer.parseInt(i[0]), i[1], Integer.parseInt(i[2]), Double.parseDouble(i[3]), Integer.parseInt(i[4]), i[5], i[6]);
+					}
+					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory());
+				}
+				if (input.equals("Search Tool by Name")) {
+					serverController.getSocketOut().println("Show Tool");
+					String[] arr = dataBaseController.getIdbController().queryByName(name);
+					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
+					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
+				}
+//				if (input.equals("Search Tool by ID")) {
+//					serverController.getSocketOut().println("Show Tool");
+//					String[] arr = dataBaseController.getIdbController().queryById(id);
+//					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
+//					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
+//				}
+				//quantity by tool name
+				if (input.equals("Check Quantity")) {
+					serverController.getSocketOut().println("Check Quantity");
+					String[] arr = dataBaseController.getIdbController().queryByName(name);
+					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
+					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
+				}
+				if (input.equals("Decrease Quantity")) {
+					//calls to decrease Quantity of a certain tool, we will have an option for searching for ID or Name......
+				}
+				
+				this.getShop().clearLists();
+				
+				if (input.equals("Quit")) {
+					serverController.getSocketOut().println("Quit");
+					break;
+				}
+			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		if (serverController.response.equals("Customer")) {
-			this.shop.buildCustomer(12314, "Boat", "Moat", "123 East Bimbleton", "T2S 1S7", "708 706 1111", "R");
-			this.shop.buildCustomer(1143315, "Fucker", "Jones", "Cats ave", "123 sdfs", "1 800 go fuck yourself", "C");
-			serverController.getSocketOut().println("Customer");
-			serverController.getSocketOutObjects().writeObject(this.getShop().getCm().getCustomerList().get(0));
+		finally {
+			this.getServerController().close();
 		}
-		if (serverController.response.equals("Order")) {
-			this.shop.buildOrderLine(1243521, 6006001, 32);
-			this.shop.buildOrderLine(9281623, 1001008, 17);
-			serverController.getSocketOut().println("Order");
-			serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getOrder());
-		}
-		if (serverController.response.equals("Quit")) {
-			serverController.getSocketOut().println("Quit");
-        	break;
-		}
-		}
-	} catch (IOException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
 	}
-	}
+	//
+	//
+	//
+	//
+//	public void exampleObjects() {
+//		this.shop.buildTool("Dinko Hammer", 160, 4.20, 123456789, 42069, "Electrical", "THIS MFR REALLY HAS ELECTRICAL");
+//		this.shop.buildTool("Bupkis", 122, 0.01, 000000001, 234525, "Non-Electrical", null);
 //		this.shop.buildCustomer(12314, "Boat", "Moat", "123 East Bimbleton", "T2S 1S7", "708 706 1111", "R");
 //		this.shop.buildCustomer(1143315, "Fucker", "Jones", "Cats ave", "123 sdfs", "1 800 go fuck yourself", "C");
-//		for (server.Model.Customer i: shop.getCm().getCustomerList()) {
-//			System.out.println(i);
-//		}
-//		
-//		this.shop.buildSupplier("Dr Oof", "123141 Bumbo way", "780-776-1231", 214255, "International", 0.07);
-//		this.shop.buildSupplier("Bongman", "placeholder ave", "800-800-8000", 11111111, "Local", 0.17);
-//		for (server.Model.Supplier i: shop.getSm().getSupplierList()) {
-//			System.out.println(i);
-//		}
-//		
 //		this.shop.buildOrderLine(1243521, 6006001, 32);
 //		this.shop.buildOrderLine(9281623, 1001008, 17);
-//		System.out.println(shop.getIm().getOrder());
-//		for (server.Model.OrderLine i: shop.getIm().getOrder().getOrderLines()) {
-//			System.out.println(i);
-//		}
-
-	//
-	//
+//	}
 	//
 	//
 	//
@@ -120,18 +129,4 @@ public class ServerModelController {
 		this.shop = shop;
 	}
 
-	//FOR TESTING***********************************************************************************************
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-//	public static void main(String [] args) {
-//		ServerModelController smc = new ServerModelController();
-//		smc.run();
-//	}
-	
 }

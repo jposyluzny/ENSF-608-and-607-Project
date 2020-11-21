@@ -22,9 +22,6 @@ public class ServerController {
     
     public String response = "";
     
-    //FOR TESTING
-    private BufferedReader stdIn;
-    
     public ServerController() {
         try {
             serverSocket = new ServerSocket(PORT);
@@ -32,21 +29,9 @@ public class ServerController {
             socketInStrings = new BufferedReader(new InputStreamReader(sSocket.getInputStream()));
             socketOutObjects = new ObjectOutputStream(sSocket.getOutputStream());
             socketOut = new PrintWriter(sSocket.getOutputStream(), true);
-            
-            //TESTING PURPOSES ONLY
-            stdIn = new BufferedReader(new InputStreamReader(System.in));
         } catch (IOException e) {
-            System.err.print(e.getStackTrace());
+        	e.printStackTrace();
         }
-    }
-
-    //TODO: THREAD PER USER
-    public void communicate() {
-            while (true) {
-                if (response.equals("Quit"))
-                	break;
-            }
-        	this.close();
     }
     
     public void close() {
@@ -56,7 +41,7 @@ public class ServerController {
     		socketOutObjects.close();
     		socketOut.close();
     	} catch (IOException e) {
-    		System.err.println(e.getStackTrace());
+    		e.printStackTrace();
     	}
     }
     
@@ -82,8 +67,9 @@ public class ServerController {
 	
     public static void main(String [] args) {
         ServerController server = new ServerController();
-        new ServerModelController(server, new DBController(new InventoryDBController(), new CustomerDBController(), new OrderDBController()), new Shop());
-        server.communicate();
+        ServerModelController smc = new ServerModelController(server, new DBController(new InventoryDBController(), new CustomerDBController(), new OrderDBController()), new Shop());
+        smc.getDataBaseController().getIdbController().connect();
+        smc.run();
     }
 
 }

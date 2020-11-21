@@ -1,8 +1,7 @@
 package client.controller;
 
-import server.Model.*;
-
 import java.net.Socket;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -18,32 +17,15 @@ public class ClientController {
     private BufferedReader socketInStrings;
     private PrintWriter socketOut;
     
-    public String response = "";
-
-    //FOR TESTING ONLY
-    public BufferedReader stdIn;
-    
     public ClientController() {
         try {
             clientSocket = new Socket(HOST, PORT);
             socketInObjects = new ObjectInputStream(clientSocket.getInputStream());
             socketInStrings = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
             socketOut = new PrintWriter(clientSocket.getOutputStream(), true);
-
-            //TESTING PURPOSES ONLY
-            stdIn = new BufferedReader(new InputStreamReader(System.in));
         } catch (IOException e) {
-            System.err.print(e.getStackTrace());
+            e.printStackTrace();
         }
-    }
-    
-    //TODO: THREAD PER USER
-    public void communicate() {
-            while (true) {
-                if (response.equals("Quit"))
-                	break;
-            }
-        	this.close();
     }
     
     public void close() {
@@ -52,7 +34,7 @@ public class ClientController {
     		socketInStrings.close();
     		socketOut.close();
     	} catch (IOException e) {
-    		System.err.println(e.getStackTrace());
+    		e.printStackTrace();
     	}
     }
     
@@ -82,8 +64,8 @@ public class ClientController {
 
     public static void main(String [] args) {
         ClientController client = new ClientController();
-        new ClientModelController(client);
-        client.communicate();
+        ClientModelController cmc = new ClientModelController(client);
+        cmc.run();
     }
 
 }
