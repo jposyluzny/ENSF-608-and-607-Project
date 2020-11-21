@@ -21,7 +21,6 @@ public class InventoryViewController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			clientModelController.getClientController().getSocketOut().println("List all Tools");
-			clientModelController.getClientController().getSocketOut().println("DUMMY STRING");
 		}
 	}
 	
@@ -29,7 +28,7 @@ public class InventoryViewController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (checkSearchByNameRadioButton())
-				clientModelController.getClientController().getSocketOut().println("Search Tool by Name");	
+				clientModelController.getClientController().getSocketOut().println("Search Tool by Name");
 			else if (checksearchByIDRadioButton())
 				clientModelController.getClientController().getSocketOut().println("Search Tool by ID");
 			else if (checkQuantityRadioButton())
@@ -73,6 +72,7 @@ public class InventoryViewController {
 	public InventoryGUI getInventoryView() {
 		return inventoryView;
 	}
+	
 	public void setInventoryView(InventoryGUI inventoryView) {
 		this.inventoryView = inventoryView;
 	}

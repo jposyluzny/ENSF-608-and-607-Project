@@ -10,6 +10,7 @@ public class InventoryGUI {
 	private JButton searchButton, listAllToolsButton;
 	private JRadioButton searchByNameRadioButton, searchByIDRadioButton, checkQuantityRadioButton, decreaseQuantityRadioButton;
 	private JTextField searchParamField;
+	private JTextArea resultsArea;
 	
 	public InventoryGUI () {
 		this.buildGUI();
@@ -36,7 +37,8 @@ public class InventoryGUI {
 		radioButtonGroup.add(decreaseQuantityRadioButton);
 		
 		JPanel panel3 = new JPanel();
-		JTextArea resultsArea = new JTextArea(15, 40);
+		resultsArea = new JTextArea(15, 40);
+		resultsArea.setEditable(false);
 		JScrollPane resultsPane = new JScrollPane(resultsArea);
 		resultsPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
 		resultsPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
@@ -127,6 +129,9 @@ public class InventoryGUI {
 		this.searchParamField = searchParamField;
 	}
 
+	public JTextArea getResultsArea() {
+		return resultsArea;
+	}
 //	public static void main(String [] args) {
 //		InventoryGUI gui = new InventoryGUI();
 //		gui.buildGUI();

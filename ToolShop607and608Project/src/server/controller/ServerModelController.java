@@ -37,13 +37,9 @@ public class ServerModelController {
 		String input = "";
 		try {
 			while (true) {
-				//TODO: FIX REQUIREMENT FOR 2 STRING INPUTS, IT DOESNT WORK FOR LISTING ALL TOOLS
-				//********************************************************************************************
-				//********************************************************************************************
 				input = serverController.getSocketInStrings().readLine();
 				String name;
-//				String name = serverController.getSocketInStrings().readLine();
-//				int id = Integer.parseInt(serverController.getSocketInStrings().readLine());
+				int id;
 				if (input.equals("List all Tools")) {
 					serverController.getSocketOut().println("List all Tools");
 					ArrayList<String[]> arr = dataBaseController.getIdbController().queryAllTools();
@@ -52,6 +48,7 @@ public class ServerModelController {
 					}
 					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory());
 				}
+				
 				if (input.equals("Search Tool by Name")) {
 					name = serverController.getSocketInStrings().readLine();
 					serverController.getSocketOut().println("Show Tool");
@@ -59,14 +56,15 @@ public class ServerModelController {
 					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
 					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
 				}
+				
 				if (input.equals("Search Tool by ID")) {
-					int id = Integer.parseInt(serverController.getSocketInStrings().readLine());
+					id = Integer.parseInt(serverController.getSocketInStrings().readLine());
 					serverController.getSocketOut().println("Show Tool");
 					String[] arr = dataBaseController.getIdbController().queryById(id);
 					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
 					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
 				}
-				//quantity by tool name
+				
 				if (input.equals("Check Quantity")) {
 					name = serverController.getSocketInStrings().readLine();
 					serverController.getSocketOut().println("Check Quantity");
@@ -74,6 +72,7 @@ public class ServerModelController {
 					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
 					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
 				}
+				
 				if (input.equals("Decrease Quantity")) {
 					name = serverController.getSocketInStrings().readLine();
 					dataBaseController.getIdbController().decreaseQuantity(name);

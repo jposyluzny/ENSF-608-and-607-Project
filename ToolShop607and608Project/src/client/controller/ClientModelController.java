@@ -24,18 +24,22 @@ public class ClientModelController {
 	public void run() {
 		//FOR TESTING ONLY
 	    String input = "";
+	    String st = "";
 		try {
 			while (true) {
 				input = clientController.getSocketInStrings().readLine();
 				if (input.equals("List all Tools")) {
 					ArrayList<Tool> toolList = (ArrayList<Tool>) clientController.getSocketInObjects().readObject();
-					for (Tool t: toolList)
-						System.out.println(t);
+					for (Tool t: toolList) {
+						st += t.toString() + "\n";
+					}
 				}
+				
 				if (input.equals("Show Tool")) {
 					Tool tool = (Tool) clientController.getSocketInObjects().readObject();
 					System.out.println(tool);
 				}
+				
 				if (input.equals("Check Quantity")) {
 					Tool tool = (Tool) clientController.getSocketInObjects().readObject();
 					System.out.println("".format("Quantity of tool: %s is %d", tool.getToolName(), tool.getQuantity()));

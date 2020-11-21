@@ -3,7 +3,6 @@ package client.controller;
 import java.net.Socket;
 
 import client.view.InventoryGUI;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -18,6 +17,7 @@ public class ClientController {
     private ObjectInputStream socketInObjects;
     private BufferedReader socketInStrings;
     private PrintWriter socketOut;
+    
     
     public ClientController() {
         try {
@@ -63,7 +63,7 @@ public class ClientController {
 	public void setSocketOut(PrintWriter socketOut) {
 		this.socketOut = socketOut;
 	}
-
+	
     public static void main(String [] args) {
         ClientController client = new ClientController();
         ClientModelController cmc = new ClientModelController(client);
@@ -71,5 +71,4 @@ public class ClientController {
         new InventoryViewController(invGUI, cmc);
         cmc.run();
     }
-
 }
