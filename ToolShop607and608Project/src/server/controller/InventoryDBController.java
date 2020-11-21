@@ -20,7 +20,9 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		try {
 			Driver driver = new com.mysql.cj.jdbc.Driver();
 			DriverManager.registerDriver(driver);
+			System.out.println("Attempting Connection...");
 			conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+	        System.out.println("Database Connection Succesful.");
 		} catch(SQLException e) {
 			System.err.println("A problem has been encountered when trying to make a connection.");
 			e.printStackTrace();
@@ -116,7 +118,7 @@ public class InventoryDBController implements ConnectDetailsContainer{
 			if(rs.isBeforeFirst()) {
 				rs.next();
 				toolInfo = resultsToArray(rs);
-				printArray(toolInfo);
+//				printArray(toolInfo);
 			}
 
 			else {

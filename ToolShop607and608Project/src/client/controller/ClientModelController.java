@@ -1,53 +1,70 @@
 package client.controller;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
-import server.Model.Customer;
-import server.Model.Order;
-import server.Model.OrderLine;
-import server.Model.Shop;
-import server.Model.Tool;
-import server.controller.DBController;
-import server.controller.ServerController;
+import server.Model.*;
 
 public class ClientModelController {
 	
 	private ClientController clientController;
 	
-
+	//TESTING
+	private BufferedReader stdIn;
+	
 	public ClientModelController (ClientController client) {
 		this.clientController = client;
-		this.run();
+		//Testing
+		stdIn = new BufferedReader(new InputStreamReader(System.in));
 	}
-
+	
+	//For testing, this will need to be refactored
 	public void run() {
-		boolean flag = true;
+		//FOR TESTING ONLY
+	    String input = "";
 		try {
 			while (true) {
-				//TESTING ONLY
-				System.out.println("Enter \"Tool\" or \"Customer\" or \"Order\" or \"Quit\".");
-				clientController.response = clientController.stdIn.readLine();
-				clientController.getSocketOut().println(clientController.response);
-				clientController.response = clientController.getSocketInStrings().readLine();
-				if (clientController.response.equals("Tool")) {
-					Tool t = (Tool) clientController.getSocketInObjects().readObject();
-					System.out.println(t);
+				System.out.println("Enter \"List all Tools\", \"Search Tool by Name\" or \"Search Tool by ID\" "
+						+"or \"Check Quantity\" or \"Decrease Quantity\", or type \"Quit\".");
+				input = stdIn.readLine();
+				System.out.println("Input Tool Name");
+				String name = stdIn.readLine();
+				clientController.getSocketOut().println(input);
+				clientController.getSocketOut().println(name);
+				input = clientController.getSocketInStrings().readLine();
+				if (input.equals("List all Tools")) {
+					ArrayList<Tool> toolList = (ArrayList<Tool>) clientController.getSocketInObjects().readObject();
+					for (Tool t: toolList)
+						System.out.println(t);
 				}
-				if (clientController.response.equals("Customer")) {
-					Customer t = (Customer) clientController.getSocketInObjects().readObject();
-					System.out.println(t);
+				if (input.equals("Show Tool")) {
+					Tool tool = (Tool) clientController.getSocketInObjects().readObject();
+					System.out.println(tool);
 				}
-				if (clientController.response.equals("Order")) {
-					Order t = (Order) clientController.getSocketInObjects().readObject();
-					for (OrderLine o: t.getOrderLines())
-						System.out.println(o);
+				if (input.equals("Check Quantity")) {
+					Tool tool = (Tool) clientController.getSocketInObjects().readObject();
+					System.out.println("".format("Quantity of tool: %s is %d", tool.getToolName(), tool.getQuantity()));
 				}
-				if (clientController.response.equals("Quit"))
+				//TODO: The customer functionality will need to go here as well.
+				if (input.equals("Quit"))
 					break;
 			}
 		} catch (IOException | ClassNotFoundException e) {
-			System.err.println(e.getStackTrace());
+			e.printStackTrace();
 		}
+		finally {
+			this.clientController.close();
+		}
+	}
+	
+	public BufferedReader getStdIn() {
+		return stdIn;
+	}
+
+	public void setStdIn(BufferedReader stdIn) {
+		this.stdIn = stdIn;
 	}
 
 }

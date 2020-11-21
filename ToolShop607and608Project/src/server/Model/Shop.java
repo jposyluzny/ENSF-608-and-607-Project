@@ -12,8 +12,8 @@ public class Shop {
     	this.setCm(new CustomerList());
     }
 
-    public void buildTool(String toolName, int quantity, double price, int supplierID, int toolID, String type, String powerInfo) {
-        this.getIm().buildTool(toolName,quantity,price,supplierID,toolID, type, powerInfo);
+    public void buildTool(int toolID, String toolName, int quantity, double price, int supplierID, String type, String powerInfo) {
+        this.getIm().buildTool(toolName,quantity,price,supplierID, toolID, type, powerInfo);
     }
 
     public void buildSupplier(String name, String address, String contactInfo, int supplierID, String type, double importTax) {
@@ -27,6 +27,12 @@ public class Shop {
     public void buildOrderLine(int toolID, int supplierID, int orderQuantity) {
 		this.getIm().buildOrderLine(toolID, supplierID, orderQuantity);
 	}
+    
+    public void clearLists() {
+    	this.getIm().clearList();
+    	this.getSm().clearList();
+    	this.getCm().clearList();
+    }
     
 	public Inventory getIm() {
 		return im;
