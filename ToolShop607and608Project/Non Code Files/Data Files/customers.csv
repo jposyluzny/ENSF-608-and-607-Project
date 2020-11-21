@@ -1,0 +1,11 @@
+customerid,firstname,lastname,address,postalcode,phonenumber,type
+1,Robert,Xbox,123 Microsoft Street,T3T 0T0,800-555-1234,C
+2,Bill,Gate,425 Microsoft Road,T3T 1Q2,800-999-1234,C
+3,Frederick,Playstation,13 Sony Street,Y9H 0V0,150-555-1277,R
+4,Billy,Bingleton,39 Bungle Street,T3N 9M2,823-051-1294,R
+5,John,Nintendo,911 Nintendo Ave,Z5P 1T0,906-566-9414,C
+6,Jimbo,Frimpleman,123 Fleeb Road,VB2 0A6,186-615-1513,C
+7,Miguel,Sanchez,742 Evergreen Terrace,A9Q 3B2,156-791-1954,R
+8,Danny,Dingaling,420 Dongo Street,N9Q 3Q9,981-321-9109,R
+9,Pascal,Peenareeno,8 Ringaling Road,Q9N 5K1,651-181-0398,C
+10,Ronny,Beano,1 Bean Boulevard,Q6H 1F9,806-940-9842,R
