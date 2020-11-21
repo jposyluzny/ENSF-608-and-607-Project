@@ -26,13 +26,6 @@ public class ClientModelController {
 	    String input = "";
 		try {
 			while (true) {
-				System.out.println("Enter \"List all Tools\", \"Search Tool by Name\" or \"Search Tool by ID\" "
-						+"or \"Check Quantity\" or \"Decrease Quantity\", or type \"Quit\".");
-				input = stdIn.readLine();
-				System.out.println("Input Tool Name");
-				String name = stdIn.readLine();
-				clientController.getSocketOut().println(input);
-				clientController.getSocketOut().println(name);
 				input = clientController.getSocketInStrings().readLine();
 				if (input.equals("List all Tools")) {
 					ArrayList<Tool> toolList = (ArrayList<Tool>) clientController.getSocketInObjects().readObject();
@@ -57,6 +50,14 @@ public class ClientModelController {
 		finally {
 			this.clientController.close();
 		}
+	}
+	
+	public ClientController getClientController() {
+		return this.clientController;
+	}
+	
+	public void setClientController(ClientController clientController) {
+		this.clientController = clientController;
 	}
 	
 	public BufferedReader getStdIn() {

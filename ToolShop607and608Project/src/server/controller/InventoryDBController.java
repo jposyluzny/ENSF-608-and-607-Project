@@ -69,18 +69,18 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		return arr;
 	}
 	
-	public void printArrayList(ArrayList<String[]> arrList) {
-		for(int i = 0; i < arrList.size(); i++) {
-			String id = arrList.get(i)[0];
-			String name = arrList.get(i)[1];
-			String quantity = arrList.get(i)[2];
-			String price = arrList.get(i)[3];
-			String supplierid = arrList.get(i)[4];
-			String type = arrList.get(i)[5];
-			String powerType = arrList.get(i)[6];
-			System.out.println(id + " " + name + " " + quantity + " " + price + " " + supplierid + " " + type + " " + powerType);
-		}
-	}
+//	public void printArrayList(ArrayList<String[]> arrList) {
+//		for(int i = 0; i < arrList.size(); i++) {
+//			String id = arrList.get(i)[0];
+//			String name = arrList.get(i)[1];
+//			String quantity = arrList.get(i)[2];
+//			String price = arrList.get(i)[3];
+//			String supplierid = arrList.get(i)[4];
+//			String type = arrList.get(i)[5];
+//			String powerType = arrList.get(i)[6];
+//			System.out.println(id + " " + name + " " + quantity + " " + price + " " + supplierid + " " + type + " " + powerType);
+//		}
+//	}
 	
 	public void printArray(String[] arr) {
 		System.out.println("");
@@ -106,7 +106,7 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		printArrayList(toolList);
+//		printArrayList(toolList);
 		return toolList;
 	}
 	
@@ -140,10 +140,22 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		return executeToolQuery(queryId);
 	}
 	
-	public static void main(String[] args)
-	{
-		InventoryDBController idbc = new InventoryDBController();
-		idbc.connect();
-		idbc.queryAllTools();
-	}
+	public void decreaseQuantity(String toolName) {
+        String queryId = "UPDATE TOOLTABLE SET QUANTITY = QUANTITY-1 WHERE NAME = '" +toolName+ "'";
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(queryId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+	
+
+//	public static void main(String[] args)
+//	{
+//		InventoryDBController idbc = new InventoryDBController();
+//		idbc.connect();
+//		idbc.queryAllTools();
+//	}
+
 }

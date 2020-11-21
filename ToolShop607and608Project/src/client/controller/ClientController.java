@@ -2,6 +2,8 @@ package client.controller;
 
 import java.net.Socket;
 
+import client.view.InventoryGUI;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -65,6 +67,8 @@ public class ClientController {
     public static void main(String [] args) {
         ClientController client = new ClientController();
         ClientModelController cmc = new ClientModelController(client);
+        InventoryGUI invGUI = new InventoryGUI();
+        new InventoryViewController(invGUI, cmc);
         cmc.run();
     }
 

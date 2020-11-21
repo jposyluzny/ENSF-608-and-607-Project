@@ -37,6 +37,9 @@ public class ServerModelController {
 		String input = "";
 		try {
 			while (true) {
+				//TODO: FIX REQUIREMENT FOR 2 STRING INPUTS, IT DOESNT WORK FOR LISTING ALL TOOLS
+				//********************************************************************************************
+				//********************************************************************************************
 				input = serverController.getSocketInStrings().readLine();
 				String name = serverController.getSocketInStrings().readLine();
 //				int id = Integer.parseInt(serverController.getSocketInStrings().readLine());
@@ -68,7 +71,7 @@ public class ServerModelController {
 					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
 				}
 				if (input.equals("Decrease Quantity")) {
-					//calls to decrease Quantity of a certain tool, we will have an option for searching for ID or Name......
+					dataBaseController.getIdbController().decreaseQuantity(name);
 				}
 				
 				this.getShop().clearLists();
