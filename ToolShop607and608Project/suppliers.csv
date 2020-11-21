@@ -1,3 +1,4 @@
+supplierid,name,address,suppliercontact,suppliertype,importtax
 8001,Grommet Builders,"788 30th St., SE, Calgary",Fred,Local,NULL
 8002,Pong Works,"749 Dufferin Blvd., SE, Ireland",Bart,International,0.1
 8003,Wiley Inc.,"26 40th St., SE, Calgary",BillyBob,Local,NULL

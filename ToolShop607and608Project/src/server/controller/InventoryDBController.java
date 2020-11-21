@@ -1,8 +1,5 @@
 package server.controller;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -32,31 +29,12 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	
 	public void close() {
 		try {
-			pstmt.close();
+			stmt.close();
 			rs.close();
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void createToolTable() {
-		String toolTable = "CREATE TABLE IF NOT EXISTS TOOLTABLE("
-	    		+ "TOOLID INT NOT NULL,"
-	    		+ "NAME VARCHAR(15) NOT NULL,"
-	    		+ "QUANTITY INT NOT NULL,"
-	    		+ "PRICE DECIMAL(10,2) NOT NULL,"
-	    		+ "SUPPLIERID INT NOT NULL,"
-	    		+ "TYPE VARCHAR(15) NOT NULL,"
-	    		+ "POWERTYPE VARCHAR(4),"
-	    		+ "PRIMARY KEY (TOOLID));";
-		try {
-			stmt = conn.createStatement();
-			stmt.executeUpdate(toolTable);
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Created ToolTable in 608607Project Database");	
 	}
 	
 	public void insertIntoToolTable(int id, String name, int quantity, double price, int supplierId, String type, String powerType) {
@@ -76,44 +54,13 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		}
 	}
 	
-	public void populateToolTable(String toolFileName) {
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader(toolFileName));
-			String line;
-			line = reader.readLine();
-			while(line != null) {
-				String[] elements = line.split(";");
-				insertIntoToolTable(Integer.parseInt(elements[0]),elements[1],Integer.parseInt(elements[2]),Double.parseDouble(elements[3]),Integer.parseInt(elements[4]),elements[5],elements[6]);
-				line = reader.readLine();
-			}
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public boolean checkPopulated(ResultSet rs) {
-		try {
-			if(rs.isBeforeFirst()) {
-				return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
 	public String[] resultsToArray(ResultSet rs) {
 		String[] arr = null;
 		try {
 			arr = new String[7];
-			arr[0] = rs.getString(1);
-			arr[1] = rs.getString(2);
-			arr[2] = rs.getString(3);
-			arr[3] = rs.getString(4);
-			arr[4] = rs.getString(5);
-			arr[5] = rs.getString(6);
-			arr[6] = rs.getString(7);
+			for(int i = 0; i < arr.length; i++) {
+				arr[i] = rs.getString(i+1);
+			}
 		} catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -142,9 +89,10 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	
 	public ArrayList<String[]> queryAllTools() {
 		ArrayList<String[]> toolList = new ArrayList<String[]>();
-		String queryAllTools = "SELECT * FROM ToolTable;";
+		String queryAllTools = "SELECT * FROM TOOLTABLE";
 		try {
-			rs = pstmt.executeQuery(queryAllTools);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(queryAllTools);
 			if(rs.isBeforeFirst()) {
 				while(rs.next()) {
 					toolList.add(resultsToArray(rs));
@@ -163,7 +111,8 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	public String[] executeToolQuery(String queryTool) {
 		String[] toolInfo = null;
 		try {
-			rs = pstmt.executeQuery(queryTool);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(queryTool);
 			if(rs.isBeforeFirst()) {
 				rs.next();
 				toolInfo = resultsToArray(rs);
@@ -187,17 +136,5 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	public String[] queryById(int id) {
 		String queryId = "SELECT * FROM TOOLTABLE WHERE TOOLID = " +id+ "";
 		return executeToolQuery(queryId);
-	}
-	
-	public static void main(String[] args) {
-		String toolFileName = "items_new.txt";
-		InventoryDBController idbc = new InventoryDBController();
-		idbc.connect();
-		idbc.createToolTable();
-		idbc.populateToolTable(toolFileName);
-		idbc.queryAllTools();
-		idbc.queryByName("Barn Bins");
-		idbc.queryById(1035);
-		idbc.queryById(4000);
 	}
 }

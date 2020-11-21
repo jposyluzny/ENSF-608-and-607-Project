@@ -1,8 +1,5 @@
 package server.controller;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -41,25 +38,6 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 		}
 	}
 	
-	public void createCustomerTable() {
-		String custTable = "CREATE TABLE IF NOT EXISTS CustomerTable("
-				+ "CUSTOMERID INT(4) NOT NULL,"
-	    		+ "FIRSTNAME VARCHAR(20) NOT NULL,"
-	    		+ "LASTNAME VARCHAR(20) NOT NULL,"
-	    		+ "ADDRESS VARCHAR(50) NOT NULL,"
-	    		+ "POSTALCODE VARCHAR(7) NOT NULL,"
-	    		+ "PHONENUMBER VARCHAR(12) NOT NULL,"
-	    		+ "TYPE VARCHAR(1) NOT NULL,"
-	    		+ "PRIMARY KEY (CLIENTID));";
-		try {
-			stmt = conn.createStatement();
-			stmt.executeUpdate(custTable);
-		} catch(SQLException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Created CustomerTable in 608607Project Database");	
-	}
-	
 	public void insertIntoCustomerTable(int id, String firstName, String lastName, String address, String postalCode, String phoneNum, String type) {
 		try {
 			String insertCust = "INSERT INTO CUSTOMERTABLE(CUSTOMERID, FIRSTNAME, LASTNAME, ADDRESS, POSTALCODE, PHONENUMBER, TYPE) VALUES (?,?,?,?,?,?,?)";
@@ -77,22 +55,6 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 		}
 	}
 	
-	public void populateCustomerTable(String custFileName) {
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader(new FileReader(custFileName));
-			String line;
-			line = reader.readLine();
-			while(line != null) {
-				String[] elements = line.split(";");
-				insertIntoCustomerTable(Integer.parseInt(elements[0]),elements[1],elements[2],elements[3],elements[4],elements[5],elements[6]);
-				line = reader.readLine();
-			}
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 //	public void updateCustomerInfo(//customer information string? {
 		// ##################### TODO ####################### //
 //	}
@@ -100,7 +62,8 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 	public void removeCustomer(int id) {
 		try {
 			String deleteCust = "DELETE FROM CUSTOMERTABLE WHERE CUSTOMERID = "+id+"";
-			pstmt.executeUpdate(deleteCust);
+			stmt = conn.createStatement();
+			stmt.executeUpdate(deleteCust);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -110,13 +73,9 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 		String[] arr = null;
 		try {
 			arr = new String[7];
-			arr[0] = rs.getString(1);
-			arr[1] = rs.getString(2);
-			arr[2] = rs.getString(3);
-			arr[3] = rs.getString(4);
-			arr[4] = rs.getString(5);
-			arr[5] = rs.getString(6);
-			arr[6] = rs.getString(7);
+			for(int i = 0; i < arr.length; i++) {
+				arr[i] = rs.getString(i+1);
+			}
 		} catch(SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -127,7 +86,8 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 		ArrayList<String[]> customerList = new ArrayList<String[]>();
 		String queryCustomerTypes = "SELECT * FROM CUSTOMERTABLE WHERE TYPE = '" +type+ "'";
 		try {
-			rs = pstmt.executeQuery(queryCustomerTypes);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(queryCustomerTypes);
 			if(rs.isBeforeFirst()) {
 				while(rs.next()) {
 					customerList.add(resultsToArray(rs));
@@ -145,12 +105,12 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 	public String[] executeCustomerQuery(String queryCust) {
 		String[] customerInfo = null;
 		try {
-			rs = pstmt.executeQuery(queryCust);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(queryCust);
 			if(rs.isBeforeFirst()) {
 				rs.next();
 				customerInfo = resultsToArray(rs);
 			}
-
 			else {
 				System.out.println("\nSearch failed to find customer");
 			}
