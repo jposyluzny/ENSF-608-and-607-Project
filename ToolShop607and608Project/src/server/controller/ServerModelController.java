@@ -41,7 +41,8 @@ public class ServerModelController {
 				//********************************************************************************************
 				//********************************************************************************************
 				input = serverController.getSocketInStrings().readLine();
-				String name = serverController.getSocketInStrings().readLine();
+				String name;
+//				String name = serverController.getSocketInStrings().readLine();
 //				int id = Integer.parseInt(serverController.getSocketInStrings().readLine());
 				if (input.equals("List all Tools")) {
 					serverController.getSocketOut().println("List all Tools");
@@ -52,25 +53,29 @@ public class ServerModelController {
 					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory());
 				}
 				if (input.equals("Search Tool by Name")) {
+					name = serverController.getSocketInStrings().readLine();
 					serverController.getSocketOut().println("Show Tool");
 					String[] arr = dataBaseController.getIdbController().queryByName(name);
 					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
 					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
 				}
-//				if (input.equals("Search Tool by ID")) {
-//					serverController.getSocketOut().println("Show Tool");
-//					String[] arr = dataBaseController.getIdbController().queryById(id);
-//					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
-//					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
-//				}
+				if (input.equals("Search Tool by ID")) {
+					int id = Integer.parseInt(serverController.getSocketInStrings().readLine());
+					serverController.getSocketOut().println("Show Tool");
+					String[] arr = dataBaseController.getIdbController().queryById(id);
+					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
+					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
+				}
 				//quantity by tool name
 				if (input.equals("Check Quantity")) {
+					name = serverController.getSocketInStrings().readLine();
 					serverController.getSocketOut().println("Check Quantity");
 					String[] arr = dataBaseController.getIdbController().queryByName(name);
 					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
 					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
 				}
 				if (input.equals("Decrease Quantity")) {
+					name = serverController.getSocketInStrings().readLine();
 					dataBaseController.getIdbController().decreaseQuantity(name);
 				}
 				

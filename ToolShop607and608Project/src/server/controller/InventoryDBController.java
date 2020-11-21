@@ -69,26 +69,6 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		return arr;
 	}
 	
-//	public void printArrayList(ArrayList<String[]> arrList) {
-//		for(int i = 0; i < arrList.size(); i++) {
-//			String id = arrList.get(i)[0];
-//			String name = arrList.get(i)[1];
-//			String quantity = arrList.get(i)[2];
-//			String price = arrList.get(i)[3];
-//			String supplierid = arrList.get(i)[4];
-//			String type = arrList.get(i)[5];
-//			String powerType = arrList.get(i)[6];
-//			System.out.println(id + " " + name + " " + quantity + " " + price + " " + supplierid + " " + type + " " + powerType);
-//		}
-//	}
-	
-	public void printArray(String[] arr) {
-		System.out.println("");
-		for(int i = 0; i < arr.length; i++) {
-			System.out.print(arr[i] + " ");
-		}
-	}
-	
 	public ArrayList<String[]> queryAllTools() {
 		ArrayList<String[]> toolList = new ArrayList<String[]>();
 		String queryAllTools = "SELECT * FROM TOOLTABLE";
@@ -106,7 +86,6 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-//		printArrayList(toolList);
 		return toolList;
 	}
 	
@@ -118,7 +97,6 @@ public class InventoryDBController implements ConnectDetailsContainer{
 			if(rs.isBeforeFirst()) {
 				rs.next();
 				toolInfo = resultsToArray(rs);
-//				printArray(toolInfo);
 			}
 
 			else {
@@ -149,13 +127,4 @@ public class InventoryDBController implements ConnectDetailsContainer{
             e.printStackTrace();
         }
     }
-	
-
-//	public static void main(String[] args)
-//	{
-//		InventoryDBController idbc = new InventoryDBController();
-//		idbc.connect();
-//		idbc.queryAllTools();
-//	}
-
 }
