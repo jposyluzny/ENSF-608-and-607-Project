@@ -37,7 +37,7 @@ public class Order implements Serializable {
     }
     
     private String generateCurrentDateTime() {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
             return formatter.format(date);
     }

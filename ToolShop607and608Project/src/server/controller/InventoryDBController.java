@@ -114,7 +114,7 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	}
 	
 	public String[] queryById(int id) {
-		String queryId = "SELECT * FROM TOOLTABLE WHERE TOOLID = " +id+ "";
+		String queryId = "SELECT * FROM TOOLTABLE WHERE TOOLID = " +id;
 		return executeToolQuery(queryId);
 	}
 	

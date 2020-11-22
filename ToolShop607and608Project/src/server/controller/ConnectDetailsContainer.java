@@ -8,7 +8,7 @@ public interface ConnectDetailsContainer {
 	   static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";  
 	   static final String DB_URL = "jdbc:mysql://localhost:3306/608607project";
 
-	   //  Database credentials
-	   static final String USERNAME = "root";
+	  //  Database credentials
+	   static final String USERNAME = "josh";
 	   static final String PASSWORD = "password";
 }
