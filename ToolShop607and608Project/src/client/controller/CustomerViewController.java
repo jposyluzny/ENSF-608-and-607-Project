@@ -17,7 +17,7 @@ public class CustomerViewController {
 		this.setCustomerView(new CustomerGUI());
 		this.setClientModelController(clientModelController);
 		customerView.addSearchListener(new SearchForCustomer());
-		customerView.addClearSearchListener(new ClearSearchField());
+		customerView.addClearSearchListener(new ClearSearchField())
 		customerView.addUpdateCustomerListener(new UpdateCustomer());
 		customerView.addClearCustomerFieldsListener( new ClearCustomerFields());
 	}
@@ -36,7 +36,7 @@ public class CustomerViewController {
 		}
 		
 		public boolean checkSearchByIDRadioButton() {
-			return customerView.getSearchByIDRaioButton().isSelected();
+			return customerView.getSearchByIDRadioButton().isSelected();
 		}
 		
 		public boolean checkSearchByLastNameRadioButton() {
