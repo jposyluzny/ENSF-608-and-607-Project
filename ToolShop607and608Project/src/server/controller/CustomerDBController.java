@@ -55,9 +55,22 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 		}
 	}
 	
-//	public void updateCustomerInfo(//customer information string? {
-		// ##################### TODO ####################### //
-//	}
+	public void updateCustomerInfo(int id, String firstName, String lastName, String address, String postalCode, String phoneNum) {
+		try {
+			String updateCust = "UPDATE CUSTOMERTABLE SET " 
+					+"FIRSTNAME = '" + firstName + "', "
+					+"LASTNAME = '" + lastName + "', "
+					+"ADDRESS = '" + address + "', "
+					+"POSTALCODE = '" + postalCode + "', "
+					+"PHONENUMBER = '" + phoneNum + "' "
+					+"WHERE CUSTOMERID = " + id + ";";
+			stmt = conn.createStatement();
+			stmt.executeUpdate(updateCust);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public void removeCustomer(int id) {
 		try {
@@ -128,6 +141,5 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 	public String[] queryByName(String custName) {
 		String queryName = "SELECT * FROM CUSTOMERTABLE WHERE NAME = '" +custName+ "'";
 		return executeCustomerQuery(queryName);
-	}	
-	
+	}
 }
