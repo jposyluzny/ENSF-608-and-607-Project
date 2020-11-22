@@ -33,24 +33,19 @@ public class ServerModelController {
 	//
 	//THIS WILL NEED TO BE REFACTORED
 	public void run() {
-		//TESTING????
-		String input = "";
 		try {
 			while (true) {
-				input = serverController.getSocketInStrings().readLine();
-				String name;
-				int id;
+				String input = serverController.getSocketInStrings().readLine();
 				if (input.equals("List all Tools")) {
 					serverController.getSocketOut().println("List all Tools");
-					ArrayList<String[]> arr = dataBaseController.getIdbController().queryAllTools();
-					for (String[] i: arr) {
+					ArrayList<String[]> arrL = new ArrayList<String[]> (dataBaseController.getIdbController().queryAllTools());
+					for (String[] i: arrL)
 						this.getShop().buildTool(Integer.parseInt(i[0]), i[1], Integer.parseInt(i[2]), Double.parseDouble(i[3]), Integer.parseInt(i[4]), i[5], i[6]);
-					}
 					serverController.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory());
 				}
 				
 				if (input.equals("Search Tool by Name")) {
-					name = serverController.getSocketInStrings().readLine();
+					String name = serverController.getSocketInStrings().readLine();
 					serverController.getSocketOut().println("Show Tool");
 					String[] arr = dataBaseController.getIdbController().queryByName(name);
 					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
@@ -58,7 +53,7 @@ public class ServerModelController {
 				}
 				
 				if (input.equals("Search Tool by ID")) {
-					id = Integer.parseInt(serverController.getSocketInStrings().readLine());
+					int id = Integer.parseInt(serverController.getSocketInStrings().readLine());
 					serverController.getSocketOut().println("Show Tool");
 					String[] arr = dataBaseController.getIdbController().queryById(id);
 					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
@@ -66,7 +61,7 @@ public class ServerModelController {
 				}
 				
 				if (input.equals("Check Quantity")) {
-					name = serverController.getSocketInStrings().readLine();
+					String name = serverController.getSocketInStrings().readLine();
 					serverController.getSocketOut().println("Check Quantity");
 					String[] arr = dataBaseController.getIdbController().queryByName(name);
 					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
@@ -74,16 +69,53 @@ public class ServerModelController {
 				}
 				
 				if (input.equals("Decrease Quantity")) {
-					name = serverController.getSocketInStrings().readLine();
+					String name = serverController.getSocketInStrings().readLine();
 					dataBaseController.getIdbController().decreaseQuantity(name);
+					serverController.getSocketOut().println("Decrease Quantity");
+					serverController.getSocketOut().println("Tool quantity decreased successfully.");
+				}
+				
+				if (input.equals("Add new Customer")) {
+//					...
+				}
+				
+				if (input.equals("Update existing Customer")) {
+//					...
+				}
+				
+				if (input.equals("Remove customer from DB")) {
+					int id = Integer.parseInt(serverController.getSocketInStrings().readLine());
+					this.getDataBaseController().getCdbController().removeCustomer(id);
+					serverController.getSocketOut().println("Remove customer from DB");
+					serverController.getSocketOut().println("Customer successfully removed from database.");
+				}
+				
+				if (input.equals("Search for Customer by ID")) {
+					int id = Integer.parseInt(serverController.getSocketInStrings().readLine());
+					serverController.getSocketOut().println("Show single Customer");
+					String[] arr = this.getDataBaseController().getCdbController().queryById(id);
+					this.getShop().buildCustomer(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]);
+					serverController.getSocketOutObjects().writeObject(this.getShop().getCm().getCustomerList().get(0));
+				}
+				
+				if (input.equals("Search for Customer by last name")) {
+					String name = serverController.getSocketInStrings().readLine();
+					serverController.getSocketOut().println("Show single Customer");
+					String[] arr = this.getDataBaseController().getCdbController().queryByName(name);
+					this.getShop().buildCustomer(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]);
+					serverController.getSocketOutObjects().writeObject(this.getShop().getCm().getCustomerList().get(0));
+				}
+				
+				if (input.equals("Search for all Customers by type")) {
+					String type = serverController.getSocketInStrings().readLine();
+					serverController.getSocketOut().println("Show all Customers of type");
+					ArrayList<String[]> arr = new ArrayList<String[]> (this.getDataBaseController().getCdbController().queryCustomerTypes(type));
+					for (String[] i: arr)
+						this.getShop().getCm().buildCustomer(Integer.parseInt(i[0]), i[1], i[2], i[3], i[4], i[5], i[6]);
+					serverController.getSocketOutObjects().writeObject(this.getShop().getCm().getCustomerList());
 				}
 				
 				this.getShop().clearLists();
-				
-				if (input.equals("Quit")) {
-					serverController.getSocketOut().println("Quit");
-					break;
-				}
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();

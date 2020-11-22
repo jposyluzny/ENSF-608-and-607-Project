@@ -2,16 +2,18 @@ package client.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import client.view.InventoryGUI;
+import server.Model.Tool;
 
 public class InventoryViewController {
 	
 	private InventoryGUI inventoryView;
 	private ClientModelController clientModelController;
 	
-	public InventoryViewController(InventoryGUI inventoryView, ClientModelController clientModelController) {
-		this.setInventoryView(inventoryView);
+	public InventoryViewController(ClientModelController clientModelController) {
+		this.setInventoryView(new InventoryGUI());
 		this.setClientModelController(clientModelController);
 		inventoryView.addSearchForAllToolsListener(new ListAllTools());
 		inventoryView.addSearchListener(new SearchForTool());
@@ -40,33 +42,53 @@ public class InventoryViewController {
 		}
 		
 		public boolean checkSearchByNameRadioButton() {
-			if (inventoryView.getSearchByNameRadioButton().isSelected())
-				return true;
-			else
-				return false;
+			return inventoryView.getSearchByNameRadioButton().isSelected();
 		}
 		
 		public boolean checksearchByIDRadioButton() {
-			if (inventoryView.getSearchByIDRadioButton().isSelected())
-				return true;
-			else
-				return false;
+			return inventoryView.getSearchByIDRadioButton().isSelected();
 		}
 		
 		public boolean checkQuantityRadioButton() {
-			if (inventoryView.getCheckQuantityRadioButton().isSelected())
-				return true;
-			else
-				return false;
+			return inventoryView.getCheckQuantityRadioButton().isSelected();
 		}
 		
 		public boolean checkDecreaseQuantityRadioButton() {
-			if (inventoryView.getDecreaseQuantityRadioButton().isSelected())
-				return true;
-			else
-				return false;
+			return inventoryView.getDecreaseQuantityRadioButton().isSelected();
 		}
-		
+	}
+	
+	public void updateResultsAreaWithAllTools(ArrayList<Tool> arr) {
+		this.clearResultsPane();
+		for (Tool t: arr)
+			this.getInventoryView().getResultsArea().append(t.toString() + "\n");
+		this.clearSearchParamField();
+	}
+	
+	public void updateResultsAreaWithSingleTool(Tool tool) {
+		this.clearResultsPane();
+		this.getInventoryView().getResultsArea().append(tool.toString() + "\n");
+		this.clearSearchParamField();
+	}
+	
+	public void updateResultsAreaWithQuantity(Tool tool) {
+		this.clearResultsPane();
+		this.getInventoryView().getResultsArea().append("".format("The remaining quantity of %s is %d\n", tool.getToolName(), tool.getQuantity()));
+		this.clearSearchParamField();
+	}
+	
+	public void updateResultsAreaWithDecreaseQuantityNotification(String s) {
+		this.clearResultsPane();
+		this.getInventoryView().getResultsArea().append(s + "\n");
+		this.clearSearchParamField();
+	}
+	
+	public void clearResultsPane() {
+		this.getInventoryView().getResultsArea().setText("");
+	}
+	
+	public void clearSearchParamField() {
+		this.getInventoryView().getSearchParamField().setText("");
 	}
 	
 	public InventoryGUI getInventoryView() {

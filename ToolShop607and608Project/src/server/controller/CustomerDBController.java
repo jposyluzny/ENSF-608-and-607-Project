@@ -128,12 +128,6 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 	public String[] queryByName(String custName) {
 		String queryName = "SELECT * FROM CUSTOMERTABLE WHERE NAME = '" +custName+ "'";
 		return executeCustomerQuery(queryName);
-	}
-	
-	public String[] queryByType(String type) {
-		String queryType = "SELECT * FROM CustomerTable WHERE TYPE = '" +type+ "'";
-		return executeCustomerQuery(queryType);
-	}
-	
+	}	
 	
 }

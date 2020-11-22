@@ -67,8 +67,6 @@ public class ClientController {
     public static void main(String [] args) {
         ClientController client = new ClientController();
         ClientModelController cmc = new ClientModelController(client);
-        InventoryGUI invGUI = new InventoryGUI();
-        new InventoryViewController(invGUI, cmc);
         cmc.run();
     }
 }
