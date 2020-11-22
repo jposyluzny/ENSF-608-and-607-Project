@@ -2,6 +2,8 @@ package client.view;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,8 +13,8 @@ public class CustomerGUI {
 
 	private JButton searchButton, clearSearchButton, saveButton, deleteButton, clearButton;
 	private JRadioButton searchByClientId, searchByLastName, searchByClientType;
-	private JTextField parameterField;
-	private JTextArea resultsArea;
+	private JTextField parameterField, clientIdBox, firstNameBox, lastNameBox, addressBox, postalCodeBox, phoneNumberBox, typeBox;
+	private JList resultsList;
 	
 	public CustomerGUI() {
 		this.buildGUI();
@@ -58,20 +60,18 @@ public class CustomerGUI {
 		panel3.add(clearSearchButton);
 		panel1.add(panel3);
 		
-		
 		JPanel panel5 = new JPanel();
 		JLabel searchResults = new JLabel("Results:");
 		panel5.add(searchResults);
 		panel1.add(panel5);
 
+		// TODO: JList CONSTRUCTOR NEEDS TO BE FED A LIST
 		JPanel panel6 = new JPanel();
-		resultsArea = new JTextArea();
-		resultsArea.setEditable(false);
-		resultsArea.setPreferredSize(new Dimension(400,200));
-		JScrollPane resultsPane = new JScrollPane(resultsArea);
-		resultsPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
-		resultsPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-		panel6.add(resultsArea);
+		resultsList = new JList();
+		resultsList.setVisibleRowCount(10);
+		resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//		addResultsListListener(resultsList);
+		panel6.add(new JScrollPane(resultsList));
 		panel5.add(panel6);
 		panel1.add(panel5);
 
@@ -84,26 +84,27 @@ public class CustomerGUI {
 		JPanel panel8 = new JPanel();
 		panel8.setLayout(new GridLayout(7,2));
 		JLabel clientId = new JLabel("Client ID:");
-		JTextArea clientIdBox = new JTextArea(1, 20);
+		clientIdBox = new JTextField(20);
 		clientIdBox.setBorder(border);
 		clientIdBox.setEditable(false);
+		clientIdBox.setBackground(Color.WHITE);
 		JLabel firstName = new JLabel("First Name:");
-		JTextArea firstNameBox = new JTextArea(1,20);
+		firstNameBox = new JTextField(20);
 		firstNameBox.setBorder(border);
 		JLabel lastName = new JLabel("Last Name:");
-		JTextArea lastNameBox = new JTextArea(1,20);
+		lastNameBox = new JTextField(20);
 		lastNameBox.setBorder(border);
 		JLabel address = new JLabel("Address:");
-		JTextArea addressBox = new JTextArea(1,20);
+		addressBox = new JTextField(20);
 		addressBox.setBorder(border);
 		JLabel postalCode = new JLabel("Postal Code: ");
-		JTextArea postalCodeBox = new JTextArea(1,20);
+		postalCodeBox = new JTextField(20);
 		postalCodeBox.setBorder(border);
 		JLabel phoneNumber = new JLabel("Phone Number:");
-		JTextArea phoneNumberBox = new JTextArea(1,20);
+		phoneNumberBox = new JTextField(20);
 		phoneNumberBox.setBorder(border);
 		JLabel clientType = new JLabel("Client Type:");
-		JTextArea typeBox = new JTextArea(1,20);
+		typeBox = new JTextField(20);
 		typeBox.setBorder(border);
 		
 		panel8.add(clientId);
@@ -145,6 +146,187 @@ public class CustomerGUI {
 		frame.setVisible(true);
 	}
 	
+	public void addSearchListener(ActionListener a) {
+		this.getSearchButton().addActionListener(a);
+	}
+	
+	public void addSearchByIdListener(ActionListener a) {
+		this.getSearchByClientId().addActionListener(a);
+	}
+	
+	public void addSearchByLastNameListener(ActionListener a) {
+		this.getSearchByLastName().addActionListener(a);
+	}
+	
+	public void addSearchByTypeListener(ActionListener a) {
+		this.getSearchByClientType().addActionListener(a);
+	}
+	
+	// ## TODO - PASS AN ARRAY OF STRINGS TO THE valueChanged() method
+//	public void addResultsListListener(JList resultsList) {
+//		resultsList.addListSelectionListener(
+//				new ListSelectionListener() {
+//					public void valueChanged(ListSelectionEvent event) {
+//						getClientIdBox().setText(t);
+//						getFirstNameBox().setText(t);
+//						getLastNameBox().setText(t);
+//						getAddressBox().setText(t);
+//						getPostalCodeBox().setText(t);
+//						getPhoneNumberBox().setText(t);
+//						getTypeBox().setText(t);
+//					}
+//				}
+//			);
+//		}	
+	
+	public void addSaveListener(ActionListener a) {
+		this.getSaveButton().addActionListener(a);
+	}
+	
+	public void addDeleteListener(ActionListener a) {
+		this.getDeleteButton().addActionListener(a);
+	}
+	
+	public void getClearListener(ActionListener a) {
+		this.getClearButton().addActionListener(a);
+	}
+	
+	public JButton getSearchButton() {
+		return searchButton;
+	}
+
+	public void setSearchButton(JButton searchButton) {
+		this.searchButton = searchButton;
+	}
+
+	public JButton getClearSearchButton() {
+		return clearSearchButton;
+	}
+
+	public void setClearSearchButton(JButton clearSearchButton) {
+		this.clearSearchButton = clearSearchButton;
+	}
+
+	public JButton getSaveButton() {
+		return saveButton;
+	}
+
+	public void setSaveButton(JButton saveButton) {
+		this.saveButton = saveButton;
+	}
+
+	public JButton getDeleteButton() {
+		return deleteButton;
+	}
+
+	public void setDeleteButton(JButton deleteButton) {
+		this.deleteButton = deleteButton;
+	}
+
+	public JButton getClearButton() {
+		return clearButton;
+	}
+
+	public void setClearButton(JButton clearButton) {
+		this.clearButton = clearButton;
+	}
+
+	public JRadioButton getSearchByClientId() {
+		return searchByClientId;
+	}
+
+	public void setSearchByClientId(JRadioButton searchByClientId) {
+		this.searchByClientId = searchByClientId;
+	}
+
+	public JRadioButton getSearchByLastName() {
+		return searchByLastName;
+	}
+
+	public void setSearchByLastName(JRadioButton searchByLastName) {
+		this.searchByLastName = searchByLastName;
+	}
+
+	public JRadioButton getSearchByClientType() {
+		return searchByClientType;
+	}
+
+	public void setSearchByClientType(JRadioButton searchByClientType) {
+		this.searchByClientType = searchByClientType;
+	}
+
+	public JTextField getParameterField() {
+		return parameterField;
+	}
+
+	public void setParameterField(JTextField parameterField) {
+		this.parameterField = parameterField;
+	}
+
+	public JList getResultsList() {
+		return resultsList;
+	}
+
+	public void setResultsList(JList resultsList) {
+		this.resultsList = resultsList;
+	}
+
+	public JTextField getClientIdBox() {
+		return clientIdBox;
+	}
+
+	public void setClientIdBox(JTextField clientIdBox) {
+		this.clientIdBox = clientIdBox;
+	}
+
+	public JTextField getFirstNameBox() {
+		return firstNameBox;
+	}
+
+	public void setFirstNameBox(JTextField firstNameBox) {
+		this.firstNameBox = firstNameBox;
+	}
+
+	public JTextField getLastNameBox() {
+		return lastNameBox;
+	}
+
+	public void setLastNameBox(JTextField lastNameBox) {
+		this.lastNameBox = lastNameBox;
+	}
+
+	public JTextField getAddressBox() {
+		return addressBox;
+	}
+
+	public void setAddressBox(JTextField addressBox) {
+		this.addressBox = addressBox;
+	}
+
+	public JTextField getPostalCodeBox() {
+		return postalCodeBox;
+	}
+
+	public void setPostalCodeBox(JTextField postalCodeBox) {
+		this.postalCodeBox = postalCodeBox;
+	}
+
+	public JTextField getPhoneNumberBox() {
+		return phoneNumberBox;
+	}
+
+	public void setPhoneNumberBox(JTextField phoneNumberBox) {
+		this.phoneNumberBox = phoneNumberBox;
+	}
+
+	public JTextField getTypeBox() {
+		return typeBox;
+	}
+
+	public void setTypeBox(JTextField typeBox) {
+		this.typeBox = typeBox;
+	}
+
 	public static void main(String[] args) {
 		CustomerGUI cust = new CustomerGUI();
 	}
