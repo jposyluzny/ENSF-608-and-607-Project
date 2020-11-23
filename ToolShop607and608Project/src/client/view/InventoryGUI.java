@@ -2,7 +2,6 @@ package client.view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class InventoryGUI {
@@ -132,9 +131,5 @@ public class InventoryGUI {
 	public JTextArea getResultsArea() {
 		return resultsArea;
 	}
-//	public static void main(String [] args) {
-//		InventoryGUI gui = new InventoryGUI();
-//		gui.buildGUI();
-//	}
 	
 }

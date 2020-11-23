@@ -70,11 +70,10 @@ public abstract class Customer implements Serializable {
 
 	public abstract void setType(String type);
 	
-    @Override
     public String toString() {
         return "".format("\nCustomer Name: %s %s\nCustomer ID: %d\nCustomer Address: %s %s\nCustomer Phone Number: %s",
-        this.getFirstName(),this.getLastName(),this.getCustomerID(),this.getAddress(),this.getPostalCode(),
-        this.getPhoneNumber());
+        		this.getFirstName(),this.getLastName(),this.getCustomerID(),this.getAddress(),this.getPostalCode(),
+        		this.getPhoneNumber());
     }
 
 }

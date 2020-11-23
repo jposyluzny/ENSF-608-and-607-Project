@@ -28,11 +28,10 @@ public class Electrical extends Tool {
         this.powerInfo = powerInfo;
     }
     
-    @Override
     public String toString() {
         return "".format("\nTool name: %s\nTool ID: %d\nTool Type: %s\nCorresponding Supplier ID: %d\n" + 
-        "Quantity currently in inventory: %d\nTool price: %.2f\n" + "Power Info: %s", this.getToolName(), this.getToolID(),
-        this.getType(), this.getSupplierID(), this.getQuantity(), this.getPrice(), this.getPowerInfo());
+        		"Quantity currently in inventory: %d\nTool price: %.2f\n" + "Power Info: %s", this.getToolName(), this.getToolID(),
+        		this.getType(), this.getSupplierID(), this.getQuantity(), this.getPrice(), this.getPowerInfo());
     }
 
 }

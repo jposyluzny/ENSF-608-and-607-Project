@@ -1,10 +1,7 @@
 package client.controller;
 
-import java.net.Socket;
-
-import client.view.InventoryGUI;
 import server.Model.Shop;
-
+import java.net.Socket;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -12,24 +9,21 @@ import java.io.ObjectOutputStream;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
-public class ClientController {
+public class ClientController implements server.SocketConnectionContainer {
 
-    private final static String HOST = "localhost";
-    private final static int PORT = 7001;
     private Socket clientSocket;
     private ObjectInputStream socketInObjects;
     private BufferedReader socketInStrings;
     private PrintWriter socketOut;
     private ObjectOutputStream socketOutObjects;
     
-    
     public ClientController() {
         try {
-            clientSocket = new Socket(HOST, getPort());
-            socketInObjects = new ObjectInputStream(clientSocket.getInputStream());
-            socketInStrings = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            socketOut = new PrintWriter(clientSocket.getOutputStream(), true);
-            socketOutObjects = new ObjectOutputStream(clientSocket.getOutputStream());
+            this.setClientSocket(new Socket(HOST, getPort()));
+            this.setSocketInObjects(new ObjectInputStream(clientSocket.getInputStream()));
+            this.setSocketInStrings(new BufferedReader(new InputStreamReader(clientSocket.getInputStream())));
+            this.setSocketOut(new PrintWriter(clientSocket.getOutputStream(), true));
+            this.setSocketOutObjects(new ObjectOutputStream(clientSocket.getOutputStream()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -45,6 +39,14 @@ public class ClientController {
     	}
     }
     
+	public Socket getClientSocket() {
+		return clientSocket;
+	}
+
+	public void setClientSocket(Socket clientSocket) {
+		this.clientSocket = clientSocket;
+	}
+
 	public ObjectInputStream getSocketInObjects() {
 		return socketInObjects;
 	}
@@ -77,14 +79,18 @@ public class ClientController {
 		this.socketOutObjects = socketOutObjects;
 	}
 	
-	public static int getPort() {
+	public String getHost() {
+		return HOST;
+	}
+
+	public int getPort() {
 		return PORT;
 	}
 	
     public static void main(String [] args) {
         ClientController client = new ClientController();
-        ClientModelController cmc = new ClientModelController(client, new Shop());
-        cmc.run();
+        ClientModelControllerRunner cmcr = new ClientModelControllerRunner(client, new Shop());
+        cmcr.run();
     }
 
 }

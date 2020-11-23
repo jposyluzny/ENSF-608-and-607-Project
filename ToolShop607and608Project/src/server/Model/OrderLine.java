@@ -46,7 +46,6 @@ public class OrderLine implements Serializable {
 		this.orderQuantity = orderQuantity;
 	}
 	
-	@Override
 	public String toString() {
 		return "".format("\nOrder ID: %d\nTool ID: %d\nSupplier ID: %d\nOrder Quantity: %d", this.getOrderID(), this.getToolID(),
 				this.getSupplierID(), this.getOrderQuantity());

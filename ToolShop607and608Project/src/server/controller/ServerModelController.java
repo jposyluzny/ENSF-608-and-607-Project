@@ -1,5 +1,6 @@
 package server.controller;
 
+import server.Model.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,11 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import server.Model.Customer;
-import server.Model.Shop;
-import server.Model.Tool;
-
-public class ServerModelController implements Runnable {
+public class ServerModelController {
 	
 	private ServerController serverController;
 	private DBController dataBaseController;
@@ -20,156 +17,130 @@ public class ServerModelController implements Runnable {
     private BufferedReader socketInStrings;
     private ObjectInputStream socketInObjects;
     private ObjectOutputStream socketOutObjects;
-    private PrintWriter socketOut;
+    private PrintWriter socketOutStrings;
 	
 	public ServerModelController (ServerController server, DBController dataBaseController, Shop shop) {
 		try {
 			this.setServerController(server);
 			this.setDataBaseController(dataBaseController);
 			this.setShop(shop);
-			socketInStrings = new BufferedReader(new InputStreamReader(this.getServerController().getsSocket().getInputStream()));
-			socketOutObjects = new ObjectOutputStream(this.getServerController().getsSocket().getOutputStream());
-			socketInObjects = new ObjectInputStream(this.getServerController().getsSocket().getInputStream());
-			socketOut = new PrintWriter(this.getServerController().getsSocket().getOutputStream(), true);
+			this.setSocketInStrings(new BufferedReader(new InputStreamReader(this.getServerController().getsSocket().getInputStream())));
+			this.setSocketOutObjects(new ObjectOutputStream(this.getServerController().getsSocket().getOutputStream()));
+			this.setSocketInObjects(new ObjectInputStream(this.getServerController().getsSocket().getInputStream()));
+			this.setSocketOutStrings(new PrintWriter(this.getServerController().getsSocket().getOutputStream(), true));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
-	//TESTING *************************************************************************************************************
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//THIS WILL NEED TO BE REFACTORED
-	public void run() {
-		try {
-			System.out.println("Trying to connect to databases.");
-			this.getDataBaseController().getIdbController().connect();
-			this.getDataBaseController().getCdbController().connect();
-//			this.getDataBaseController().getOdbController().connect();
-			System.out.println("Databases connected to successfully.");
-			while (true) {
-				String input = this.getSocketInStrings().readLine();
-//				System.out.println(input);
-				if (input.equals("List all Tools")) {
-					this.getSocketOut().println("List all Tools");
-					ArrayList<String[]> arrL = new ArrayList<String[]> (dataBaseController.getIdbController().queryAllTools());
-					for (String[] i: arrL)
-						this.getShop().buildTool(Integer.parseInt(i[0]), i[1], Integer.parseInt(i[2]), Double.parseDouble(i[3]), Integer.parseInt(i[4]), i[5], i[6]);
-					for (Tool tool: this.getShop().getIm().getToolInventory()) {
-						this.getSocketOutObjects().writeObject(tool);
-					}
-					this.getSocketOutObjects().writeObject(null);
-				}
-				
-				if (input.equals("Search Tool by Name")) {
-					String name = this.getSocketInStrings().readLine();
-					this.getSocketOut().println("Show Tool");
-					String[] arr = dataBaseController.getIdbController().queryByName(name);
-					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
-					this.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
-				}
-				
-				if (input.equals("Search Tool by ID")) {
-					int id = Integer.parseInt(this.getSocketInStrings().readLine());
-					this.getSocketOut().println("Show Tool");
-					String[] arr = dataBaseController.getIdbController().queryById(id);
-					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
-					this.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
-				}
-				
-				if (input.equals("Check Quantity")) {
-					String name = this.getSocketInStrings().readLine();
-					this.getSocketOut().println("Check Quantity");
-					String[] arr = dataBaseController.getIdbController().queryByName(name);
-					this.getShop().buildTool(Integer.parseInt(arr[0]), arr[1], Integer.parseInt(arr[2]), Double.parseDouble(arr[3]), Integer.parseInt(arr[4]), arr[5], arr[6]);
-					this.getSocketOutObjects().writeObject(this.getShop().getIm().getToolInventory().get(0));
-				}
-				
-				if (input.equals("Decrease Quantity")) {
-					String name = this.getSocketInStrings().readLine();
-					dataBaseController.getIdbController().decreaseQuantity(name);
-					this.getSocketOut().println("Decrease Quantity");
-					this.getSocketOut().println("Tool quantity decreased successfully.");
-				}
-				
-				if (input.equals("Add new Customer")) {
-					ArrayList<String> newCustomerInfoList = (ArrayList<String>) (this.getSocketInObjects().readObject());
-					this.getDataBaseController().getCdbController().addNewCustomer(newCustomerInfoList.get(1), newCustomerInfoList.get(2), newCustomerInfoList.get(3), newCustomerInfoList.get(4), newCustomerInfoList.get(5), newCustomerInfoList.get(6));
-					this.getSocketOut().println("Add new Customer");
-					this.getSocketOut().println("Customer information added to database successfully.");
-				}
-				
-				if (input.equals("Update existing Customer")) {
-					ArrayList<String> customerInfoList = (ArrayList<String>) (this.getSocketInObjects().readObject());
-					this.getDataBaseController().getCdbController().updateCustomerInfo(Integer.parseInt(customerInfoList.get(0)), customerInfoList.get(1), customerInfoList.get(2), customerInfoList.get(3), customerInfoList.get(4), customerInfoList.get(5));
-					this.getSocketOut().println("Update existing Customer");
-					this.getSocketOut().println("Customer information updated successfully.");
-				}
-				
-				if (input.equals("Remove customer from DB")) {
-					int id = Integer.parseInt(this.getSocketInStrings().readLine());
-					this.getDataBaseController().getCdbController().removeCustomer(id);
-					this.getSocketOut().println("Remove customer from DB");
-					this.getSocketOut().println("Customer successfully removed from database.");
-				}
-				
-				if (input.equals("Search for Customer by ID")) {
-					int id = Integer.parseInt(this.getSocketInStrings().readLine());
-					this.getSocketOut().println("Show single Customer");
-					String[] arr = this.getDataBaseController().getCdbController().queryById(id);
-					this.getShop().buildCustomer(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]);
-					this.getSocketOutObjects().writeObject(this.getShop().getCm().getCustomerList().get(0));
-				}
-				
-				if (input.equals("Search for Customer by last name")) {
-					String name = this.getSocketInStrings().readLine();
-					this.getSocketOut().println("Show single Customer");
-					String[] arr = this.getDataBaseController().getCdbController().queryByName(name);
-					this.getShop().buildCustomer(Integer.parseInt(arr[0]), arr[1], arr[2], arr[3], arr[4], arr[5], arr[6]);
-					this.getSocketOutObjects().writeObject(this.getShop().getCm().getCustomerList().get(0));
-				}
-				
-				if (input.equals("Search for all Customers by type")) {
-					String type = this.getSocketInStrings().readLine();
-					this.getSocketOut().println("Show all Customers of type");
-					ArrayList<String[]> arr = new ArrayList<String[]> (this.getDataBaseController().getCdbController().queryCustomerTypes(type));
-					for (String[] i: arr) {
-						this.getShop().getCm().buildCustomer(Integer.parseInt(i[0]), i[1], i[2], i[3], i[4], i[5], i[6]);
-					}
-					for (Customer cust: this.getShop().getCm().getCustomerList()) {
-						this.getSocketOutObjects().writeObject(cust);
-					}
-					this.getSocketOutObjects().writeObject(null);
-				}
-				
-				this.getShop().clearLists();
-			}
-		} catch (IOException | ClassNotFoundException e1) {
-			e1.printStackTrace();
-		}
-		finally {
-			this.getServerController().close();
+	
+	public void connectToDatabases() {
+		System.out.println("Trying to connect to databases.");
+		this.getDataBaseController().getIdbController().connect();
+		this.getDataBaseController().getCdbController().connect();
+		this.getDataBaseController().getOdbController().connect();
+		System.out.println("Databases connected to successfully.");
+	}
+	
+	public String listenForStringMarkers() throws IOException {
+		return this.getSocketInStrings().readLine();
+	}
+	
+	public String listenForClientStringInfo() throws IOException {
+		return this.getSocketInStrings().readLine();
+	}
+	
+	public Object listendForClientObjectsInfo() throws IOException, ClassNotFoundException {
+		return this.getSocketInObjects().readObject();
+	}
+	
+	public void sendMarkerStringToClient(String output) {
+		this.getSocketOutStrings().println(output);
+	}
+	
+	public ArrayList<String []> getAllToolsFromDatabase() {
+		return this.getDataBaseController().getIdbController().queryAllTools();
+	}
+	
+	public String[] getSingleToolFromDatabase(String name) {
+		return this.getDataBaseController().getIdbController().queryByName(name);
+	}
+	
+	public String[] getSingleToolFromDatabase(int id) {
+		return this.getDataBaseController().getIdbController().queryById(id);
+	}
+	
+	public void decreaseToolQuantity(String name) {
+		this.getDataBaseController().getIdbController().decreaseQuantity(name);
+	}
+	
+	public void buildTools(String[] rawTool) {
+		this.getShop().buildTool(Integer.parseInt(rawTool[0]), rawTool[1], Integer.parseInt(rawTool[2]), 
+								Double.parseDouble(rawTool[3]), Integer.parseInt(rawTool[4]), rawTool[5], rawTool[6]);
+	}
+	
+	public void buildTools(ArrayList<String[]> rawTools) {
+		for (String[] i: rawTools) {
+			this.getShop().buildTool(Integer.parseInt(i[0]), i[1], Integer.parseInt(i[2]), Double.parseDouble(i[3]), 
+									 Integer.parseInt(i[4]), i[5], i[6]);
 		}
 	}
-	//
-	//
-	//
-	//
-
+	
+	public void writeToolsToClient() throws IOException {
+		for (Tool tool: this.getShop().getIm().getToolInventory())
+			this.getSocketOutObjects().writeObject(tool);
+		this.getSocketOutObjects().writeObject(null);
+	}
+	
+	public void addNewCustomerToDatabase(ArrayList<String> rawCustomer) {
+		this.getDataBaseController().getCdbController().addNewCustomer(rawCustomer.get(1), rawCustomer.get(2), 
+							  rawCustomer.get(3), rawCustomer.get(4), rawCustomer.get(5), rawCustomer.get(6));
+	}
+	
+	public void updateExistingCustomerInDatabase(ArrayList<String> rawCustomer) {
+		this.getDataBaseController().getCdbController().updateCustomerInfo(Integer.parseInt(rawCustomer.get(0)), 
+			rawCustomer.get(1), rawCustomer.get(2), rawCustomer.get(3), rawCustomer.get(4), rawCustomer.get(5));
+	}
+	
+	public void removeExistingCustomerFromDatabase(int id) {
+		this.getDataBaseController().getCdbController().removeCustomer(id);
+	}
+	
+	public String[] getSingleCustomerFromDatabase(int id) {
+		return this.getDataBaseController().getCdbController().queryById(id);
+	}
+	
+	public String[] getSingleCustomerFromDatabase(String name) {
+		return this.getDataBaseController().getCdbController().queryByName(name);
+	}
+	
+	public ArrayList<String[]> getAllCustomersByTypeFromDatabase(String type) {
+		return this.getDataBaseController().getCdbController().queryCustomerTypes(type);
+	}
+	
+	//ERROR HANDLING HERE
+	public void buildCustomers(String[] rawCustomer) {
+		this.getShop().buildCustomer(Integer.parseInt(rawCustomer[0]), rawCustomer[1], rawCustomer[2], rawCustomer[3], 
+													  rawCustomer[4], rawCustomer[5], rawCustomer[6]);
+	}
+		
+	//ERROR HANDLING HERE
+	public void buildCustomers(ArrayList<String[]> rawCustomers) {
+		for (String[] i: rawCustomers)
+			this.getShop().buildCustomer(Integer.parseInt(i[0]), i[1], i[2], i[3], i[4], i[5], i[6]);
+	}
+	
+	public void writeCustomersToClient() throws IOException {
+		for (Customer customer: this.getShop().getCm().getCustomerList())
+			this.getSocketOutObjects().writeObject(customer);
+		this.getSocketOutObjects().writeObject(null);
+	}
 	
 	public void close () {
 		try {
     		socketInStrings.close();
+    		socketInObjects.close();
     		socketOutObjects.close();
-    		socketOut.close();
+    		socketOutStrings.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -198,10 +169,14 @@ public class ServerModelController implements Runnable {
 	public void setShop(Shop shop) {
 		this.shop = shop;
 	}
-	
-    public BufferedReader getSocketInStrings() {
-    	return socketInStrings;
-    }
+
+	public BufferedReader getSocketInStrings() {
+		return socketInStrings;
+	}
+
+	public void setSocketInStrings(BufferedReader socketInStrings) {
+		this.socketInStrings = socketInStrings;
+	}
 
 	public ObjectOutputStream getSocketOutObjects() {
 		return socketOutObjects;
@@ -211,12 +186,12 @@ public class ServerModelController implements Runnable {
 		this.socketOutObjects = socketOutObjects;
 	}
 
-	public PrintWriter getSocketOut() {
-		return socketOut;
+	public PrintWriter getSocketOutStrings() {
+		return socketOutStrings;
 	}
 
-	public void setSocketOut(PrintWriter socketOut) {
-		this.socketOut = socketOut;
+	public void setSocketOutStrings(PrintWriter socketOutStrings) {
+		this.socketOutStrings = socketOutStrings;
 	}
 
 	public ObjectInputStream getSocketInObjects() {

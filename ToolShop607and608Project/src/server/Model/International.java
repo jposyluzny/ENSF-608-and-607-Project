@@ -28,11 +28,10 @@ public class International extends Supplier {
 		this.importTax = importTax;
 	}
 	
-    @Override
     public String toString() {
         return "".format("\nSupplier name: %s\nSupplier ID: %d\nSupplier Type: %s\nSupplier contact info: %s\nSupplier address: %s"
         		+ "\nImport Tax: %f",
-        this.getName(),this.getSupplierID(),this.getType(),this.getContactInfo(),this.getAddress(), this.getImportTax());
+        		this.getName(),this.getSupplierID(),this.getType(),this.getContactInfo(),this.getAddress(), this.getImportTax());
     }
 
 }

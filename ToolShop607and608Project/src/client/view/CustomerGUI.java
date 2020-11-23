@@ -2,15 +2,8 @@ package client.view;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 public class CustomerGUI {
 
@@ -69,7 +62,6 @@ public class CustomerGUI {
 		panel5.add(searchResults);
 		panel1.add(panel5);
 
-		// TODO: JList CONSTRUCTOR NEEDS TO BE FED A LIST
 		JPanel panel6 = new JPanel();
 		resultsList = new JList<String>();
 		resultsList.setVisibleRowCount(5);
@@ -319,7 +311,4 @@ public class CustomerGUI {
 		this.addCustomerButton = addCustomerButton;
 	}
 
-//	public static void main(String[] args) {
-//		new CustomerGUI();
-//	}
 }

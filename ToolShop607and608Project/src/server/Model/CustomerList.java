@@ -10,12 +10,13 @@ public class CustomerList {
         this.setCustomerList(new ArrayList <Customer>());
     }
 
-    //TODO: Fix case sensitivity when comparing strings
     public void buildCustomer(int customerID, String firstName, String lastName, String address, String postalCode, String phoneNumber, String type) {
-        if (type.equals("R")) 
+        if (type.toLowerCase().equals("r")) 
         	this.addCustomerToList(new Residential(customerID,firstName,lastName,address,postalCode,phoneNumber,type));
-        else if (type.equals("C")) 
+        
+        else if (type.toLowerCase().equals("c")) 
         	this.addCustomerToList(new Commercial(customerID,firstName,lastName,address,postalCode,phoneNumber,type));
+        
         else 
         	System.err.println("CUSTOMER TYPE DOES NOT EXIST");
     }

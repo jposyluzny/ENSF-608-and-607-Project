@@ -2,23 +2,13 @@ package server.Model;
 
 import java.io.Serializable;
 
-//TODO: CHANGE TO ABSTRACT AND PULL UP METHODS FROM SUBCLASSES
-public class Tool implements Serializable {
+public abstract class Tool implements Serializable {
 
 	private static final long serialVersionUID = 1L;
     private String toolName;
     private int quantity, supplierID, toolID;
     private double price;
 
-    /**
-     * This constructor will set all of the input tool information to the corresponding variables in this
-     * object.
-     * @param toolName is the name/description of the tool.
-     * @param quantity is the current quantity of the tool.
-     * @param price is the current set price the tool will be selling for.
-     * @param supplierID is the ID number of the supplier this tool is ordered from.
-     * @param toolID is the ID number of the tool for unique identification purposes.
-     */
     public Tool (String toolName, int quantity, double price, int supplierID, int toolID) {
         this.setToolName(toolName);
         this.setQuantity(quantity);
@@ -67,15 +57,19 @@ public class Tool implements Serializable {
     public void setPrice(double price) {
         this.price = price;
     }
+    
+    public abstract String getType();
 
-    /**
-     * This will override the toString method to allow each Tools unique information to be displayed.
-     */
-    @Override
+    public abstract void setType(String type);
+    
+    public abstract String getPowerInfo();
+
+    public abstract void setPowerInfo(String powerInfo);
+
     public String toString() {
         return "".format("\nTool name: %s\nTool ID: %d\nCorresponding Supplier ID: %d\n" + 
-        "Quantity currently in inventory: %d\nTool price: %.2f",this.getToolName(),this.getToolID(),this.getSupplierID(),
-        this.getQuantity(),this.getPrice());
+        		"Quantity currently in inventory: %d\nTool price: %.2f",this.getToolName(),this.getToolID(),this.getSupplierID(),
+        		this.getQuantity(),this.getPrice());
     }
 
 }

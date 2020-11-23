@@ -18,10 +18,16 @@ public class Local extends Supplier {
 		this.type = type;
 	}
 	
-    @Override
+	public double getImportTax() {
+		return 0;
+	}
+
+	public void setImportTax(double importTax) {
+	}
+	
     public String toString() {
         return "".format("\nSupplier name: %s\nSupplier ID: %d\nSupplier Type: %s\nSupplier contact info: %s\nSupplier address: %s",
-        this.getName(),this.getSupplierID(),this.getType(),this.getContactInfo(),this.getAddress());
+        		this.getName(),this.getSupplierID(),this.getType(),this.getContactInfo(),this.getAddress());
     }
 
 }

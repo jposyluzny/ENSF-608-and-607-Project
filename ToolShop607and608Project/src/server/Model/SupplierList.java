@@ -10,17 +10,18 @@ public class SupplierList {
         this.setSupplierList(new ArrayList <Supplier>());
     }
     
-  	//TODO: fix case sensitivity when comparing strings
-  	public void buildSupplier (String name, String address, String contactInfo, int supplierID, String type, double importTax) {
-  		if (type.equals("International")) 
-          	this.addToolToList(new International(name, address, contactInfo, supplierID, type, importTax));
-          else if (type.equals("Local")) 
-          	this.addToolToList(new Local(name, address, contactInfo, supplierID, type));
-          else 
-          	System.err.println("CUSTOMER TYPE DOES NOT EXIST");
-      }
+    public void buildSupplier (String name, String address, String contactInfo, int supplierID, String type, double importTax) {
+    	if (type.toLowerCase().equals("international")) 
+    		this.addToolToList(new International(name, address, contactInfo, supplierID, type, importTax));
+    	
+    	else if (type.toLowerCase().equals("local")) 
+    		this.addToolToList(new Local(name, address, contactInfo, supplierID, type));
+    	
+    	else 
+    		System.err.println("CUSTOMER TYPE DOES NOT EXIST");
+    }
   	
-  	private void addToolToList(Supplier supplier) {
+  	public void addToolToList(Supplier supplier) {
   		this.supplierList.add(supplier);
   	}
   	
@@ -36,5 +37,4 @@ public class SupplierList {
 		this.supplierList = supplierList;
 	}
   	
-
 }

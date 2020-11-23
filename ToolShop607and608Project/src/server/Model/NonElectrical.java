@@ -18,11 +18,17 @@ public class NonElectrical extends Tool {
         this.type = type;
     }
     
-    @Override
+	public String getPowerInfo() {
+		return null;
+	}
+
+	public void setPowerInfo(String powerInfo) {
+	}
+    
     public String toString() {
         return "".format("\nTool name: %s\nTool ID: %d\nTool Type: %s\nCorresponding Supplier ID: %d\n" + 
-        "Quantity currently in inventory: %d\nTool price: %.2f",this.getToolName(),this.getToolID(),this.getType(),
-        this.getSupplierID(),this.getQuantity(),this.getPrice());
+        		"Quantity currently in inventory: %d\nTool price: %.2f",this.getToolName(),this.getToolID(),this.getType(),
+        		this.getSupplierID(),this.getQuantity(),this.getPrice());
     }
 
 }

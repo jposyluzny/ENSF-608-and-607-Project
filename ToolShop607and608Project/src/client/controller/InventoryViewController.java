@@ -1,11 +1,10 @@
 package client.controller;
 
+import client.view.InventoryGUI;
+import server.Model.Tool;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import client.view.InventoryGUI;
-import server.Model.Tool;
 
 public class InventoryViewController {
 	
@@ -15,14 +14,14 @@ public class InventoryViewController {
 	public InventoryViewController(ClientModelController clientModelController) {
 		this.setInventoryView(new InventoryGUI());
 		this.setClientModelController(clientModelController);
-		inventoryView.addSearchForAllToolsListener(new ListAllTools());
-		inventoryView.addSearchListener(new SearchForTool());
+		this.getInventoryView().addSearchForAllToolsListener(new ListAllTools());
+		this.getInventoryView().addSearchListener(new SearchForTool());
 	}
 	
 	class ListAllTools implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			clientModelController.getClientController().getSocketOut().println("List all Tools");
+			getClientModelController().getClientController().getSocketOut().println("List all Tools");
 		}
 	}
 	
@@ -30,50 +29,46 @@ public class InventoryViewController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (checkSearchByNameRadioButton())
-				clientModelController.getClientController().getSocketOut().println("Search Tool by Name");
+				getClientModelController().getClientController().getSocketOut().println("Search Tool by Name");
 			else if (checksearchByIDRadioButton())
-				clientModelController.getClientController().getSocketOut().println("Search Tool by ID");
+				getClientModelController().getClientController().getSocketOut().println("Search Tool by ID");
 			else if (checkQuantityRadioButton())
-				clientModelController.getClientController().getSocketOut().println("Check Quantity");
+				getClientModelController().getClientController().getSocketOut().println("Check Quantity");
 			else if (checkDecreaseQuantityRadioButton())
-				clientModelController.getClientController().getSocketOut().println("Decrease Quantity");
+				getClientModelController().getClientController().getSocketOut().println("Decrease Quantity");
 			
-			clientModelController.getClientController().getSocketOut().println(inventoryView.getSearchParamField().getText());
+			getClientModelController().getClientController().getSocketOut().println(getInventoryView().getSearchParamField().getText());
 		}
 		
 		public boolean checkSearchByNameRadioButton() {
-			return inventoryView.getSearchByNameRadioButton().isSelected();
+			return getInventoryView().getSearchByNameRadioButton().isSelected();
 		}
 		
 		public boolean checksearchByIDRadioButton() {
-			return inventoryView.getSearchByIDRadioButton().isSelected();
+			return getInventoryView().getSearchByIDRadioButton().isSelected();
 		}
 		
 		public boolean checkQuantityRadioButton() {
-			return inventoryView.getCheckQuantityRadioButton().isSelected();
+			return getInventoryView().getCheckQuantityRadioButton().isSelected();
 		}
 		
 		public boolean checkDecreaseQuantityRadioButton() {
-			return inventoryView.getDecreaseQuantityRadioButton().isSelected();
+			return getInventoryView().getDecreaseQuantityRadioButton().isSelected();
 		}
 	}
 	
-	public void updateResultsAreaWithAllTools(ArrayList<Tool> arr) {
+	public void updateResultsAreaWithTools(ArrayList<Tool> tools) {
 		this.clearResultsPane();
-		for (Tool t: arr)
+		for (Tool t: tools)
 			this.getInventoryView().getResultsArea().append(t.toString() + "\n");
 		this.clearSearchParamField();
 	}
 	
-	public void updateResultsAreaWithSingleTool(Tool tool) {
+	public void updateResultsAreaWithQuantity(ArrayList<Tool> tools) {
 		this.clearResultsPane();
-		this.getInventoryView().getResultsArea().append(tool.toString() + "\n");
-		this.clearSearchParamField();
-	}
-	
-	public void updateResultsAreaWithQuantity(Tool tool) {
-		this.clearResultsPane();
-		this.getInventoryView().getResultsArea().append("".format("The remaining quantity of %s is %d\n", tool.getToolName(), tool.getQuantity()));
+		for (Tool t: tools)
+			this.getInventoryView().getResultsArea().append("".format("The remaining quantity of %s is %d\n", 
+																		   t.getToolName(), t.getQuantity()));
 		this.clearSearchParamField();
 	}
 	

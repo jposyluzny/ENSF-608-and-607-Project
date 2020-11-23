@@ -18,11 +18,10 @@ public class Residential extends Customer {
 		this.type = type;
 	}
 	
-    @Override
     public String toString() {
         return "".format("\nCustomer Name: %s %s\nCustomer ID: %d\nCustomer Type: %s\nCustomer Address: %s %s\nCustomer Phone Number: %s\n",
-        this.getFirstName(),this.getLastName(),this.getCustomerID(),this.getType(),this.getAddress(),this.getPostalCode(),
-        this.getPhoneNumber());
+        		this.getFirstName(),this.getLastName(),this.getCustomerID(),this.getType(),this.getAddress(),this.getPostalCode(),
+        		this.getPhoneNumber());
     }
 
 }

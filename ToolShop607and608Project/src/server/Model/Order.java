@@ -20,8 +20,7 @@ public class Order implements Serializable {
 	}
 	
 	public void createNewOrderLine(int toolID, int supplierID, int orderQuantity) {
-        OrderLine orderLine = new OrderLine(this.getOrderID(), toolID, supplierID, orderQuantity);
-        this.addOrderLineToList(orderLine);
+        this.addOrderLineToList(new OrderLine(this.getOrderID(), toolID, supplierID, orderQuantity));
 	}
 	
 	public boolean checkToCreateNewOrder() {
@@ -37,9 +36,8 @@ public class Order implements Serializable {
     }
     
     private String generateCurrentDateTime() {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date date = new Date();
-            return formatter.format(date);
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    	return formatter.format(new Date());
     }
     
     public void addOrderLineToList(OrderLine orderLine) {
@@ -70,7 +68,6 @@ public class Order implements Serializable {
 		this.orderLines = orderLines;
 	}
 	
-	@Override
 	public String toString() {
 		return "".format("\nOrder ID: %d\nOrder Date: %s", this.getOrderID(), this.getDate());
 	}
