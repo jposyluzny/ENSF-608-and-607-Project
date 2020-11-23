@@ -74,11 +74,7 @@ public class CustomerGUI {
 		panel4.add(searchResults);
 		panel1.add(panel4);
 
-<<<<<<< HEAD
-		JPanel panel6 = new JPanel();
-=======
 		JPanel panel5 = new JPanel();
->>>>>>> 2a536b4a5cb5f39ef4ae78f799df13beb3708ab2
 		resultsList = new JList<String>();
 		resultsList.setVisibleRowCount(5);
 		resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -328,9 +324,5 @@ public class CustomerGUI {
 	public void setAddCustomerButton(JButton addCustomerButton) {
 		this.addCustomerButton = addCustomerButton;
 	}
-<<<<<<< HEAD
-
+	
 }
-=======
-}
->>>>>>> 2a536b4a5cb5f39ef4ae78f799df13beb3708ab2

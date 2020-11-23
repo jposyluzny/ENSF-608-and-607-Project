@@ -131,12 +131,5 @@ public class InventoryGUI {
 	public JTextArea getResultsArea() {
 		return resultsArea;
 	}
-<<<<<<< HEAD
-=======
-	public static void main(String [] args) {
-		InventoryGUI gui = new InventoryGUI();
-		gui.buildGUI();
-	}
->>>>>>> 2a536b4a5cb5f39ef4ae78f799df13beb3708ab2
 	
 }
