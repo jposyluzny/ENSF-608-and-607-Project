@@ -55,11 +55,9 @@ public class ClientModelControllerRunner extends ClientModelController implement
 				this.getShop().clearLists();
 			}				
 		} catch (IOException | ClassNotFoundException e) {
-			e.printStackTrace();
 		}
 		finally {
 			this.getClientController().close();
 		}
 	}
-
 }

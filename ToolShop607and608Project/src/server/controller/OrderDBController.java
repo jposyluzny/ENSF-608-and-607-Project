@@ -119,9 +119,7 @@ public class OrderDBController implements ConnectDetailsContainer{
 		}
 		return false;
 	}
-	
-	// TODO:: INTEGRATE BELOW METHOD IN THE SERVER SIDE 
-	
+
 	/**
 	 * The queryOrderTable() method takes an order id number and a date. It constructs a query to run to check the order table. If 
 	 * an order already exists with the input order number, the method will not do anything. If not, the insertIntoOrderTable() method
@@ -171,9 +169,7 @@ public class OrderDBController implements ConnectDetailsContainer{
 			e.printStackTrace();
 		}
 	}
-	
-	// TODO:: INTEGRATE BELOW METHOD IN THE SERVER SIDE
-	
+
 	/**
 	 * The queryOrderLineTable() method takes all the information required in order to build a new line in the orderline table. It will
 	 * call the checkIfOrderLineExists() method on the query that is built. If the orderline already exists, it will be updated with the
@@ -205,5 +201,4 @@ public class OrderDBController implements ConnectDetailsContainer{
 			e.printStackTrace();
 		}
 	}
-
 }
