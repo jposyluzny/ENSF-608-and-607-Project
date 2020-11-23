@@ -9,6 +9,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
+<<<<<<< HEAD
+=======
+import java.util.Arrays;
+
+import javax.swing.DefaultListModel;
+import com.sun.tools.javac.util.List;
+
+import client.controller.InventoryViewController.ListAllTools;
+import client.controller.InventoryViewController.SearchForTool;
+import client.view.CustomerGUI;
+import client.view.InventoryGUI;
+>>>>>>> 2a536b4a5cb5f39ef4ae78f799df13beb3708ab2
 
 public class CustomerViewController {
 	

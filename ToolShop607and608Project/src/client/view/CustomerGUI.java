@@ -21,14 +21,23 @@ public class CustomerGUI {
 		label.setFont(font);
 	}
 	
-	public void buildGUI() {
+	public void setBoxBorder(JTextField box) {
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
+		box.setBorder(border);
+	}
+	
+	public JLabel createCenteredLabel(String title) {
+		return new JLabel(title, SwingConstants.CENTER);
+	}
+	
+	public void buildGUI() {
+		
 		JPanel panel1 = new JPanel();
 		panel1.setLayout(new GridLayout(5,1));
-		JLabel searchClients = new JLabel("Search Clients", SwingConstants.CENTER);
+		JLabel searchClients = createCenteredLabel("Search Clients");
 		setBoldLabelFont(searchClients);
 		panel1.add(searchClients);
-		panel1.setMaximumSize( panel1.getPreferredSize() );
+		panel1.setMaximumSize(panel1.getPreferredSize());
 
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(5,1));
@@ -41,6 +50,7 @@ public class CustomerGUI {
 		radioButtonGroup.add(searchByClientId);
 		radioButtonGroup.add(searchByLastName);
 		radioButtonGroup.add(searchByClientType);
+		
 		panel2.add(selectSearchType);
 		panel2.add(searchByClientId);
 		panel2.add(searchByLastName);
@@ -52,94 +62,102 @@ public class CustomerGUI {
 		parameterField = new JTextField(20);
 		searchButton = new JButton("Search");
 		clearSearchButton = new JButton("Clear Search");
+		
 		panel3.add(parameterField);
 		panel3.add(searchButton);
 		panel3.add(clearSearchButton);
 		panel1.add(panel3);
 		
-		JPanel panel5 = new JPanel();
+		JPanel panel4 = new JPanel();
 		JLabel searchResults = new JLabel("Results:");
-		panel5.add(searchResults);
-		panel1.add(panel5);
+		
+		panel4.add(searchResults);
+		panel1.add(panel4);
 
+<<<<<<< HEAD
 		JPanel panel6 = new JPanel();
+=======
+		JPanel panel5 = new JPanel();
+>>>>>>> 2a536b4a5cb5f39ef4ae78f799df13beb3708ab2
 		resultsList = new JList<String>();
 		resultsList.setVisibleRowCount(5);
 		resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		panel6.add(new JScrollPane(resultsList));
-		panel5.add(panel6);
-		panel1.add(panel5);
-
-		JPanel panel7 = new JPanel();
-		panel7.setLayout(new GridLayout(3,1));
-		JLabel clientInformation = new JLabel("Client Information", SwingConstants.CENTER);
-		setBoldLabelFont(clientInformation);
-		panel7.add(clientInformation);
 		
-		JPanel panel8 = new JPanel();
-		panel8.setLayout(new GridLayout(7,2));
+		panel5.add(new JScrollPane(resultsList));
+		panel4.add(panel5);
+		panel1.add(panel4);
+
+		JPanel panel6 = new JPanel();
+		panel6.setLayout(new GridLayout(3,1));
+		JLabel clientInformation = createCenteredLabel("Client Information");
+		setBoldLabelFont(clientInformation);
+		
+		panel6.add(clientInformation);
+		
+		JPanel panel7 = new JPanel();
+		panel7.setLayout(new GridLayout(7,2));
 		JLabel clientId = new JLabel("Client ID:");
 		clientIdBox = new JTextField(20);
-		clientIdBox.setBorder(border);
-		clientIdBox.setBackground(Color.WHITE);
+		setBoxBorder(clientIdBox);
 		JLabel firstName = new JLabel("First Name:");
 		firstNameBox = new JTextField(20);
-		firstNameBox.setBorder(border);
+		setBoxBorder(firstNameBox);
 		JLabel lastName = new JLabel("Last Name:");
 		lastNameBox = new JTextField(20);
-		lastNameBox.setBorder(border);
+		setBoxBorder(lastNameBox);
 		JLabel address = new JLabel("Address:");
 		addressBox = new JTextField(20);
-		addressBox.setBorder(border);
+		setBoxBorder(addressBox);
 		JLabel postalCode = new JLabel("Postal Code: ");
 		postalCodeBox = new JTextField(20);
-		postalCodeBox.setBorder(border);
+		setBoxBorder(postalCodeBox);
 		JLabel phoneNumber = new JLabel("Phone Number:");
 		phoneNumberBox = new JTextField(20);
-		phoneNumberBox.setBorder(border);
+		setBoxBorder(phoneNumberBox);
 		JLabel clientType = new JLabel("Client Type:");
 		typeBox = new JTextField(20);
-		typeBox.setBorder(border);
+		setBoxBorder(typeBox);
 		
-		panel8.add(clientId);
-		panel8.add(clientIdBox);
-		panel8.add(firstName);
-		panel8.add(firstNameBox);
-		panel8.add(lastName);
-		panel8.add(lastNameBox);
-		panel8.add(address);
-		panel8.add(addressBox);
-		panel8.add(postalCode);
-		panel8.add(postalCodeBox);
-		panel8.add(phoneNumber);
-		panel8.add(phoneNumberBox);
-		panel8.add(clientType);
-		panel8.add(typeBox);	
-		panel7.add(panel8);
+		panel7.add(clientId);
+		panel7.add(clientIdBox);
+		panel7.add(firstName);
+		panel7.add(firstNameBox);
+		panel7.add(lastName);
+		panel7.add(lastNameBox);
+		panel7.add(address);
+		panel7.add(addressBox);
+		panel7.add(postalCode);
+		panel7.add(postalCodeBox);
+		panel7.add(phoneNumber);
+		panel7.add(phoneNumberBox);
+		panel7.add(clientType);
+		panel7.add(typeBox);	
+		panel6.add(panel7);
 
-		JPanel panel9 = new JPanel();
+		JPanel panel8 = new JPanel();
 		addCustomerButton = new JButton("Add");
 		saveButton = new JButton("Save");
 		deleteButton = new JButton("Delete");
 		clearButton = new JButton("Clear");
-		panel9.add(addCustomerButton);
-		panel9.add(saveButton);
-		panel9.add(deleteButton);
-		panel9.add(clearButton);
-		panel7.add(panel9);
+		
+		panel8.add(addCustomerButton);
+		panel8.add(saveButton);
+		panel8.add(deleteButton);
+		panel8.add(clearButton);
+		panel6.add(panel8);
 		
 		JPanel leftPanel = new JPanel();
 		leftPanel.add(panel1);
 		
 		JPanel rightPanel = new JPanel();
-		rightPanel.add(panel7);
+		rightPanel.add(panel6);
 
 		final JFrame frame = new JFrame("Customer Management Screen");
 		frame.getContentPane().add("West", leftPanel);
 		frame.getContentPane().add("East", rightPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
-		frame.setSize(800, 600);
+		frame.setSize(1000, 800);
 		frame.setVisible(true);
 	}
 	
@@ -310,5 +328,9 @@ public class CustomerGUI {
 	public void setAddCustomerButton(JButton addCustomerButton) {
 		this.addCustomerButton = addCustomerButton;
 	}
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> 2a536b4a5cb5f39ef4ae78f799df13beb3708ab2

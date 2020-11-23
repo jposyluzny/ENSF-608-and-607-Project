@@ -21,6 +21,9 @@ public class InventoryGUI {
 		searchParamField = new JTextField(20);
 		searchButton = new JButton("Search");
 		
+		panel1.add(searchParamField);
+		panel1.add(searchButton);
+		
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(8,1));
 		JLabel searchOptionsLabel = new JLabel("Select type of search to be performed");
@@ -35,16 +38,6 @@ public class InventoryGUI {
 		radioButtonGroup.add(checkQuantityRadioButton);
 		radioButtonGroup.add(decreaseQuantityRadioButton);
 		
-		JPanel panel3 = new JPanel();
-		resultsArea = new JTextArea(15, 40);
-		resultsArea.setEditable(false);
-		JScrollPane resultsPane = new JScrollPane(resultsArea);
-		resultsPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
-		resultsPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
-		
-		panel1.add(searchParamField);
-		panel1.add(searchButton);
-		
 		panel2.add(searchOptionsLabel);
 		panel2.add(listAllToolsButton);
 		panel2.add(searchByNameRadioButton);
@@ -53,6 +46,13 @@ public class InventoryGUI {
 		panel2.add(decreaseQuantityRadioButton);
 		panel2.add(enterParamsLabel);
 		panel2.add(panel1);
+		
+		JPanel panel3 = new JPanel();
+		resultsArea = new JTextArea(15, 40);
+		resultsArea.setEditable(false);
+		JScrollPane resultsPane = new JScrollPane(resultsArea);
+		resultsPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);  
+		resultsPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
 		
 		panel3.add(resultsPane);
 		
@@ -131,5 +131,12 @@ public class InventoryGUI {
 	public JTextArea getResultsArea() {
 		return resultsArea;
 	}
+<<<<<<< HEAD
+=======
+	public static void main(String [] args) {
+		InventoryGUI gui = new InventoryGUI();
+		gui.buildGUI();
+	}
+>>>>>>> 2a536b4a5cb5f39ef4ae78f799df13beb3708ab2
 	
 }
