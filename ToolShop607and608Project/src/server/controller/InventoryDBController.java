@@ -169,24 +169,23 @@ public class InventoryDBController implements ConnectDetailsContainer{
 	 */
 	public void decreaseQuantity(String toolName) {
         String queryId = "UPDATE TOOLTABLE SET QUANTITY = QUANTITY-1 WHERE NAME = '" +toolName+ "'";
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(queryId);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        executeToolUpdate(queryId);
     }
 	
 	public void updateQuantity(String name, int quantity) {
-        String updateToolQuantity = "UPDATE TOOLTABLE SET QUANTITY = " +quantity+ " WHERE NAME = '" +name+"'";
-        try {
-            stmt = conn.createStatement();
-            stmt.executeUpdate(updateToolQuantity);
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
+		String updateToolQuantity = "UPDATE TOOLTABLE SET QUANTITY = " +quantity+ " WHERE NAME = '" +name+"'";
+		executeToolUpdate(updateToolQuantity);
+	}
 	
+	public void executeToolUpdate(String updateQuery) {
+		try {
+			stmt = conn.createStatement();
+			stmt.executeUpdate(updateQuery);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
 	 * The close() method will close the Connection, PreparedStatement, Statement, and ResultSet objects.
 	 */
