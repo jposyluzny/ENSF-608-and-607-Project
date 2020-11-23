@@ -55,6 +55,30 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 		}
 	}
 	
+	public int findMaximumId() {
+        String[] resultArr = null;
+        try {
+            String findMaxId = "SELECT MAX(CUSTOMERID) FROM CUSTOMERTABLE";
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(findMaxId);
+            if(rs.isBeforeFirst()) {
+                rs.next();
+                resultArr = resultsToArray(rs);
+            }
+            else {
+                System.out.println("\nSearch failed to find customer");
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return Integer.parseInt(resultArr[0]);
+    }
+
+    public void addNewCustomer(String firstName, String lastName, String address, String postalCode, String phoneNum, String type) {
+        int newId = findMaximumId() + 1;
+        insertIntoCustomerTable(newId, firstName, lastName, address, postalCode, phoneNum, type);
+    }
+	
 	public void updateCustomerInfo(int id, String firstName, String lastName, String address, String postalCode, String phoneNum) {
 		try {
 			String updateCust = "UPDATE CUSTOMERTABLE SET " 
@@ -139,7 +163,7 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 	}
 	
 	public String[] queryByName(String custName) {
-		String queryName = "SELECT * FROM CUSTOMERTABLE WHERE NAME = '" +custName+ "'";
+		String queryName = "SELECT * FROM CUSTOMERTABLE WHERE LASTNAME = '" +custName+ "'";
 		return executeCustomerQuery(queryName);
 	}
 }

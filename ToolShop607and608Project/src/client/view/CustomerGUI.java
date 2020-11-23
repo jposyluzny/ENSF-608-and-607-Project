@@ -8,14 +8,17 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class CustomerGUI {
 
-	private JButton searchButton, clearSearchButton, saveButton, deleteButton, clearButton;
+	private JButton searchButton, clearSearchButton, saveButton, deleteButton, clearButton, addCustomerButton;
 	private JRadioButton searchByClientId, searchByLastName, searchByClientType;
 	private JTextField parameterField, clientIdBox, firstNameBox, lastNameBox, addressBox, postalCodeBox, phoneNumberBox, typeBox;
-	private JList resultsList;
-	
+	private JList<String> resultsList;
+
 	public CustomerGUI() {
 		this.buildGUI();
 	}
@@ -32,6 +35,7 @@ public class CustomerGUI {
 		JLabel searchClients = new JLabel("Search Clients", SwingConstants.CENTER);
 		setBoldLabelFont(searchClients);
 		panel1.add(searchClients);
+		panel1.setMaximumSize( panel1.getPreferredSize() );
 
 		JPanel panel2 = new JPanel();
 		panel2.setLayout(new GridLayout(5,1));
@@ -67,10 +71,9 @@ public class CustomerGUI {
 
 		// TODO: JList CONSTRUCTOR NEEDS TO BE FED A LIST
 		JPanel panel6 = new JPanel();
-		resultsList = new JList();
-		resultsList.setVisibleRowCount(10);
+		resultsList = new JList<String>();
+		resultsList.setVisibleRowCount(5);
 		resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//		addResultsListListener(resultsList);
 		panel6.add(new JScrollPane(resultsList));
 		panel5.add(panel6);
 		panel1.add(panel5);
@@ -86,7 +89,6 @@ public class CustomerGUI {
 		JLabel clientId = new JLabel("Client ID:");
 		clientIdBox = new JTextField(20);
 		clientIdBox.setBorder(border);
-		clientIdBox.setEditable(false);
 		clientIdBox.setBackground(Color.WHITE);
 		JLabel firstName = new JLabel("First Name:");
 		firstNameBox = new JTextField(20);
@@ -124,9 +126,11 @@ public class CustomerGUI {
 		panel7.add(panel8);
 
 		JPanel panel9 = new JPanel();
+		addCustomerButton = new JButton("Add");
 		saveButton = new JButton("Save");
 		deleteButton = new JButton("Delete");
 		clearButton = new JButton("Clear");
+		panel9.add(addCustomerButton);
 		panel9.add(saveButton);
 		panel9.add(deleteButton);
 		panel9.add(clearButton);
@@ -143,6 +147,7 @@ public class CustomerGUI {
 		frame.getContentPane().add("East", rightPanel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
+		frame.setSize(800, 600);
 		frame.setVisible(true);
 	}
 	
@@ -150,34 +155,9 @@ public class CustomerGUI {
 		this.getSearchButton().addActionListener(a);
 	}
 	
-	public void addSearchByIdListener(ActionListener a) {
-		this.getSearchByClientId().addActionListener(a);
+	public void addAddCustomerLitener(ActionListener a) {
+		this.getAddCustomerButton().addActionListener(a);
 	}
-	
-	public void addSearchByLastNameListener(ActionListener a) {
-		this.getSearchByLastName().addActionListener(a);
-	}
-	
-	public void addSearchByTypeListener(ActionListener a) {
-		this.getSearchByClientType().addActionListener(a);
-	}
-	
-	// ## TODO - PASS AN ARRAY OF STRINGS TO THE valueChanged() method
-//	public void addResultsListListener(JList resultsList) {
-//		resultsList.addListSelectionListener(
-//				new ListSelectionListener() {
-//					public void valueChanged(ListSelectionEvent event) {
-//						getClientIdBox().setText(t);
-//						getFirstNameBox().setText(t);
-//						getLastNameBox().setText(t);
-//						getAddressBox().setText(t);
-//						getPostalCodeBox().setText(t);
-//						getPhoneNumberBox().setText(t);
-//						getTypeBox().setText(t);
-//					}
-//				}
-//			);
-//		}	
 	
 	public void addSaveListener(ActionListener a) {
 		this.getSaveButton().addActionListener(a);
@@ -187,7 +167,11 @@ public class CustomerGUI {
 		this.getDeleteButton().addActionListener(a);
 	}
 	
-	public void getClearListener(ActionListener a) {
+	public void addClearSearchListener(ActionListener a) {
+		this.getClearSearchButton().addActionListener(a);
+	}
+	
+	public void addClearClientInfoListener(ActionListener a) {
 		this.getClearButton().addActionListener(a);
 	}
 	
@@ -263,11 +247,11 @@ public class CustomerGUI {
 		this.parameterField = parameterField;
 	}
 
-	public JList getResultsList() {
+	public JList<String> getResultsList() {
 		return resultsList;
 	}
 
-	public void setResultsList(JList resultsList) {
+	public void setResultsList(JList<String> resultsList) {
 		this.resultsList = resultsList;
 	}
 
@@ -327,7 +311,15 @@ public class CustomerGUI {
 		this.typeBox = typeBox;
 	}
 
-	public static void main(String[] args) {
-		CustomerGUI cust = new CustomerGUI();
+	public JButton getAddCustomerButton() {
+		return addCustomerButton;
 	}
+
+	public void setAddCustomerButton(JButton addCustomerButton) {
+		this.addCustomerButton = addCustomerButton;
+	}
+
+//	public static void main(String[] args) {
+//		new CustomerGUI();
+//	}
 }

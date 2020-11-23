@@ -2,7 +2,7 @@ package server.Model;
 
 import java.io.Serializable;
 
-public class Customer implements Serializable {
+public abstract class Customer implements Serializable {
 	
 
 	private static final long serialVersionUID = 3L;
@@ -65,6 +65,10 @@ public class Customer implements Serializable {
 	public void setCustomerID(int customerID) {
 		this.customerID = customerID;
 	}
+	
+	public abstract String getType();
+
+	public abstract void setType(String type);
 	
     @Override
     public String toString() {

@@ -12,23 +12,31 @@ public class ClientModelController {
 	
 	private ClientController clientController;
 	private InventoryViewController inventoryViewController;
+	private CustomerViewController customerViewController;
+	private Shop shop;
 	
-	public ClientModelController(ClientController client) {
+	public ClientModelController(ClientController client, Shop shop) {
 		this.setClientController(client);
 		this.setInventoryViewController(new InventoryViewController(this));
+		this.setCustomerViewController(new CustomerViewController(this));
+		this.setShop(shop);
 	}
 
 	//For testing, this will need to be refactored
-	//TODO: BUG WHEN RUNNING LIST ALL TOOLS METHOD. ALL OTHER METHODS CORRECTLY SHOW UPDATED QUANTITY AFTER DECREASING QUANTITY, BUT
-	//WHEN DISPLAYING ALL TOOLS, THE QUANTITY DISPLAYED IS THE OLD QUANTITY BEFORE QUANTITY WAS CHANGED. NEED TO FIX.
 	public void run() {
+		System.out.println("Client running on PORT: " + this.getClientController().getPort());
 		try {
 			while (true) {
 				String input = clientController.getSocketInStrings().readLine();
 				if (input.equals("List all Tools")) {
-					ArrayList<Tool> toolList = new ArrayList<Tool> ((ArrayList<Tool>) clientController.getSocketInObjects().readObject());
-					this.getInventoryViewController().updateResultsAreaWithAllTools(toolList);
+					Tool tool = (Tool) this.getClientController().getSocketInObjects().readObject();
+					while (tool != null) {
+						this.getShop().getIm().addToolToList(tool);
+						tool = (Tool) this.getClientController().getSocketInObjects().readObject();
+					}
+					this.getInventoryViewController().updateResultsAreaWithAllTools(this.getShop().getIm().getToolInventory());
 				}
+				
 				if (input.equals("Show Tool")) {
 					Tool tool = (Tool) clientController.getSocketInObjects().readObject();
 					this.getInventoryViewController().updateResultsAreaWithSingleTool(tool);
@@ -44,31 +52,51 @@ public class ClientModelController {
 				}
 				if (input.equals("Add new Customer")) {
 					input = clientController.getSocketInStrings().readLine();
-					//print "Customer has been successfully added to DB" to textarea
-//					this.getCustomerViewController().TBD...
+					this.getCustomerViewController().updateJList(input);
 				}
 				if (input.equals("Update existing Customer")) {
-					Customer customer = (Customer) clientController.getSocketInObjects().readObject();
-					//display updated customer object  fields to GUI areas
-//					this.getCustomerViewController().TBD...
+					input = clientController.getSocketInStrings().readLine();
+					this.getCustomerViewController().updateJList(input);
 				}
 				if (input.equals("Remove customer from DB")) {
 					input = clientController.getSocketInStrings().readLine();
-					//print input to textarea
-//					this.getCustomerViewController().TBD...
+					this.getCustomerViewController().updateJList(input);
 				}
 				if (input.equals("Show single Customer")) {
 					Customer customer = (Customer) clientController.getSocketInObjects().readObject();
-					//call method to display customer to textarea
-//					this.getCustomerViewController().TBD...
+					StringBuffer sb = new StringBuffer();
+					sb.append(customer.getCustomerID() + " ");
+					sb.append(customer.getFirstName() + " ");
+					sb.append(customer.getLastName() + " ");
+					sb.append(customer.getAddress() + " ");
+					sb.append(customer.getPostalCode() + " ");
+					sb.append(customer.getPhoneNumber() + " ");
+					sb.append(customer.getType() + " ");
+					this.getCustomerViewController().updateJList(sb.toString());
 				}
 				if (input.equals("Show all Customers of type")) {
-					ArrayList<Customer> customerList = new ArrayList<Customer> ((ArrayList<Customer>) clientController.getSocketInObjects().readObject());
-					//call method to diplay list of customer to textarea
-//					this.getCustomerViewController().TBD...
+					Customer customer = (Customer) this.getClientController().getSocketInObjects().readObject();
+					while (customer != null) {
+						this.getShop().getCm().addCustomerToList(customer);
+						customer = (Customer) this.getClientController().getSocketInObjects().readObject();
+					}
+					ArrayList<String> arr = new ArrayList<String> ();
+					for (Customer i: this.getShop().getCm().getCustomerList()) {
+						System.out.println(i.getFirstName() + " " + i.getLastName());
+						StringBuffer sb = new StringBuffer();
+						sb.append(Integer.toString(i.getCustomerID()) + " ");
+						sb.append(i.getFirstName() + " ");
+						sb.append(i.getLastName() + " ");
+						sb.append(i.getAddress() + " ");
+						sb.append(i.getPostalCode() + " ");
+						sb.append(i.getPhoneNumber() + " ");
+						sb.append(i.getType() + " ");
+						arr.add(sb.toString());
+					}
+					this.getCustomerViewController().updateJList(arr);
 				}	
-				if (input.equals("Quit"))
-					break;
+				
+				this.getShop().clearLists();
 			}
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
@@ -92,6 +120,22 @@ public class ClientModelController {
 
 	public void setInventoryViewController(InventoryViewController inventoryViewController) {
 		this.inventoryViewController = inventoryViewController;
+	}
+
+	public CustomerViewController getCustomerViewController() {
+		return customerViewController;
+	}
+
+	public void setCustomerViewController(CustomerViewController customerViewController) {
+		this.customerViewController = customerViewController;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 
 }
