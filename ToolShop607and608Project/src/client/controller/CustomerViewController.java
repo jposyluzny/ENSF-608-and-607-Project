@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.swing.DefaultListModel;
-
 import com.sun.tools.javac.util.List;
 
 import client.controller.InventoryViewController.ListAllTools;
