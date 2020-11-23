@@ -26,18 +26,31 @@ public class Inventory {
 	public void newOrder() {
 		if (this.getOrder() == null)
 			this.setOrder(new Order());
-		
-		else if (this.getOrder().checkToCreateNewOrder())
+		else if (!this.getOrder().checkToCreateNewOrder())
 			this.setOrder(new Order());
 	}
 	
 	public void clearList() {
 		this.getToolInventory().clear();
+		this.getOrder().clearList();
 	}
 	
-	public void buildOrderLine(int toolID, int supplierID, int orderQuantity) {
-		this.newOrder();
-		this.getOrder().createNewOrderLine(toolID, supplierID, orderQuantity);
+	public void buildOrderLine() {
+		if (needToOrderMoreTools()) {
+			this.newOrder();
+			this.getOrder().createNewOrderLine(this.getToolInventory().get(0).getToolID(), 
+											   this.getToolInventory().get(0).getSupplierID(), this.numberOfToolsToOrder());
+			this.getToolInventory().get(0).setQuantity(50);
+		}
+	}
+	
+	public int numberOfToolsToOrder() {
+		return 50 - this.getToolInventory().get(0).getQuantity();
+	}
+	
+	//returns true if we need to order more tools, false if we do not need to order more tools. Threshold is less than 40 tools.
+	public boolean needToOrderMoreTools() {
+		return this.getToolInventory().get(0).getQuantity() < 40;
 	}
     
     public void addToolToList(Tool tool) {

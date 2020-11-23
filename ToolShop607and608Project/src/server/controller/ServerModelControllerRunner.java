@@ -12,86 +12,92 @@ public class ServerModelControllerRunner extends ServerModelController implement
 	
 	public void run() {
 		try {
-			
 			this.connectToDatabases();
-			
 			while (true) {
 				
-				String input = this.listenForStringMarkers();
+				ArrayList<String[]> rawTools;
+				ArrayList<String[]> rawCustomersOut;
+				ArrayList<String> rawCustomersIn;
+				String [] rawTool;
+				String [] rawCustomer;
+				String name;
+				int id;
 				
+				String input = this.listenForStringMarkers();
 				switch (input) {			
 					case "List all Tools":
 						this.sendMarkerStringToClient("List all Tools");
-						ArrayList<String[]> rawTools = this.getAllToolsFromDatabase();
+						rawTools = this.getAllToolsFromDatabase();
 						this.buildTools(rawTools);
 						this.writeToolsToClient();
 						break;
 					case "Search Tool by Name":
 						this.sendMarkerStringToClient("Show Tool");
-						String name = this.listenForClientStringInfo();
-						String [] rawTool = this.getSingleToolFromDatabase(name);
+						name = this.listenForClientStringInfo();
+						rawTool = this.getSingleToolFromDatabase(name);
 						this.buildTools(rawTool);
 						this.writeToolsToClient();
 						break;
 					case "Search Tool by ID":
 						this.sendMarkerStringToClient("Show Tool");
 						//NEED TO ERROR HANDLE THIS STATEMENT HERE AS WELL**************************************************
-						int id = Integer.parseInt(this.listenForClientStringInfo());
-						String [] rawTool2 = this.getSingleToolFromDatabase(id);
-						this.buildTools(rawTool2);
+						id = Integer.parseInt(this.listenForClientStringInfo());
+						rawTool = this.getSingleToolFromDatabase(id);
+						this.buildTools(rawTool);
 						this.writeToolsToClient();
 						break;
 					case "Check Quantity":
 						this.sendMarkerStringToClient("Check Quantity");
-						String name2 = this.listenForClientStringInfo();
-						String [] rawTool3 = this.getSingleToolFromDatabase(name2);
-						this.buildTools(rawTool3);
+						name = this.listenForClientStringInfo();
+						rawTool = this.getSingleToolFromDatabase(name);
+						this.buildTools(rawTool);
 						this.writeToolsToClient();
 						break;
 					case "Decrease Quantity":
 						this.sendMarkerStringToClient("Decrease Quantity");
-						String name3 = this.listenForClientStringInfo();
-						this.decreaseToolQuantity(name3);
+						name = this.listenForClientStringInfo();
+						this.decreaseToolQuantity(name);
+						this.orderMoreTools(name);
 						this.sendMarkerStringToClient("Tool quantity decreased successfully.");
 						break;
 					case "Add new Customer":
 						this.sendMarkerStringToClient("Add new Customer");
-						ArrayList<String> rawCustomersIn = (ArrayList<String>) this.listendForClientObjectsInfo();
+						rawCustomersIn = (ArrayList<String>) this.listendForClientObjectsInfo();
 						this.addNewCustomerToDatabase(rawCustomersIn);
 						this.sendMarkerStringToClient("Customer information added to database successfully.");
 						break;
 					case "Update existing Customer":
 						this.sendMarkerStringToClient("Update existing Customer");
-						ArrayList<String> rawCustomersIn2 = (ArrayList<String>) this.listendForClientObjectsInfo();
-						this.updateExistingCustomerInDatabase(rawCustomersIn2);
+						rawCustomersIn = (ArrayList<String>) this.listendForClientObjectsInfo();
+						this.updateExistingCustomerInDatabase(rawCustomersIn);
 						this.sendMarkerStringToClient("Customer information updated successfully.");
 						break;
 					case "Remove customer from DB":
 						this.sendMarkerStringToClient("Remove customer from DB");
 						//NEED TO ERROR HANDLE THIS STATEMENT HERE AS WELL**************************************************
-						int id2 = Integer.parseInt(this.listenForClientStringInfo());
-						this.removeExistingCustomerFromDatabase(id2);
+						id = Integer.parseInt(this.listenForClientStringInfo());
+						this.removeExistingCustomerFromDatabase(id);
 						this.sendMarkerStringToClient("Customer successfully removed from database.");
 						break;
 					case "Search for Customer by ID":
 						this.sendMarkerStringToClient("Show Customers");
 						//NEED TO ERROR HANDLE THIS STATEMENT HERE AS WELL**************************************************
-						int id3 = Integer.parseInt(this.listenForClientStringInfo());
-						String [] rawCustomer = this.getSingleCustomerFromDatabase(id3);
+						id = Integer.parseInt(this.listenForClientStringInfo());
+						rawCustomer = this.getSingleCustomerFromDatabase(id);
 						this.buildCustomers(rawCustomer);
 						this.writeCustomersToClient();
 						break;
 					case "Search for Customer by last name":
 						this.sendMarkerStringToClient("Show Customers");
-						String name4 = this.listenForClientStringInfo();
-						String [] rawCustomer2 = this.getSingleCustomerFromDatabase(name4);
-						this.buildCustomers(rawCustomer2);
+						name = this.listenForClientStringInfo();
+						rawCustomer = this.getSingleCustomerFromDatabase(name);
+						this.buildCustomers(rawCustomer);
 						this.writeCustomersToClient();
 						break;
 					case "Search for all Customers by type":
 						this.sendMarkerStringToClient("Show Customers");
-						String name5 = this.listenForClientStringInfo();
-						ArrayList<String[]> rawCustomersOut = this.getAllCustomersByTypeFromDatabase(name5);
+						name = this.listenForClientStringInfo();
+						rawCustomersOut = this.getAllCustomersByTypeFromDatabase(name);
 						this.buildCustomers(rawCustomersOut);
 						this.writeCustomersToClient();
 						break;

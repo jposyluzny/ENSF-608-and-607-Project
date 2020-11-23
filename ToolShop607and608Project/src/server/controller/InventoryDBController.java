@@ -177,6 +177,16 @@ public class InventoryDBController implements ConnectDetailsContainer{
         }
     }
 	
+	public void updateQuantity(String name, int quantity) {
+        String updateToolQuantity = "UPDATE TOOLTABLE SET QUANTITY = " +quantity+ " WHERE NAME = '" +name+"'";
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(updateToolQuantity);
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+	
 	/**
 	 * The close() method will close the Connection, PreparedStatement, Statement, and ResultSet objects.
 	 */

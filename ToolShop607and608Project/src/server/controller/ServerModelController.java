@@ -71,8 +71,34 @@ public class ServerModelController {
 	
 	public void decreaseToolQuantity(String name) {
 		this.getDataBaseController().getIdbController().decreaseQuantity(name);
+		
 	}
 	
+	public void orderMoreTools(String name) {
+		String [] arr = this.getDataBaseController().getIdbController().queryByName(name);
+		this.buildTools(arr);
+		this.getShop().buildOrderLine();
+		this.insertOrderIntoDatabase();
+		this.insertOrderLineIntoDatabase();
+		this.updateToolQuantityInDatabase(name, this.getShop().getIm().getToolInventory().get(0).getQuantity());
+	}
+	
+	public void updateToolQuantityInDatabase(String name, int quantity) {
+		this.getDataBaseController().getIdbController().updateQuantity(name, quantity);
+	}
+	
+	public void insertOrderIntoDatabase() {
+		this.getDataBaseController().getOdbController().queryOrderTable(this.getShop().getIm().getOrder().getOrderID(), 
+																		this.getShop().getIm().getOrder().getDate());
+	}
+	
+	public void insertOrderLineIntoDatabase() {
+		this.getDataBaseController().getOdbController().queryOrderLineTable(this.getShop().getIm().getOrder().getOrderID(),
+				this.getShop().getIm().getOrder().getOrderLines().get(0).getToolID(),
+				this.getShop().getIm().getOrder().getOrderLines().get(0).getSupplierID(),
+				this.getShop().getIm().getOrder().getOrderLines().get(0).getOrderQuantity());
+	}
+ 	
 	public void buildTools(String[] rawTool) {
 		this.getShop().buildTool(Integer.parseInt(rawTool[0]), rawTool[1], Integer.parseInt(rawTool[2]), 
 								Double.parseDouble(rawTool[3]), Integer.parseInt(rawTool[4]), rawTool[5], rawTool[6]);

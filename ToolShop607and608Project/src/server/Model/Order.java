@@ -24,10 +24,11 @@ public class Order implements Serializable {
 	}
 	
 	public boolean checkToCreateNewOrder() {
-		if (this.getDate().equals(this.generateCurrentDateTime()))
-			return false;
-		else
-			return true;
+		return this.getDate().equals(this.generateCurrentDateTime());
+	}
+	
+	public void clearList() {
+		this.getOrderLines().clear();
 	}
 
     private int generate5DigitOrderID() {
