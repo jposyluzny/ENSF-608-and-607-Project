@@ -28,15 +28,32 @@ public class InventoryViewController {
 	class SearchForTool implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (checkSearchByNameRadioButton())
+			if (checkSearchByNameRadioButton()) {
 				getClientModelController().getClientController().getSocketOut().println("Search Tool by Name");
-			else if (checksearchByIDRadioButton())
-				getClientModelController().getClientController().getSocketOut().println("Search Tool by ID");
-			else if (checkQuantityRadioButton())
+				sendDataToServer();
+			}
+			else if (checksearchByIDRadioButton()) {
+				if (isNumeric(getInventoryView().getSearchParamField().getText())) {
+					getClientModelController().getClientController().getSocketOut().println("Search Tool by ID");
+					sendDataToServer();
+				}
+				else {
+					clearResultsPane();
+					clearSearchParamField();
+					updateResultsAreaWithDecreaseQuantityNotification("Please enter a valid Tool ID.");
+				}
+			}
+			else if (checkQuantityRadioButton()) {
 				getClientModelController().getClientController().getSocketOut().println("Check Quantity");
-			else if (checkDecreaseQuantityRadioButton())
+				sendDataToServer();
+			}
+			else if (checkDecreaseQuantityRadioButton()) {
 				getClientModelController().getClientController().getSocketOut().println("Decrease Quantity");
-			
+				sendDataToServer();
+			}
+		}
+		
+		public void sendDataToServer() {
 			getClientModelController().getClientController().getSocketOut().println(getInventoryView().getSearchParamField().getText());
 		}
 		
@@ -81,13 +98,22 @@ public class InventoryViewController {
 	public void clearResultsPane() {
 		this.getInventoryView().getResultsArea().setText("");
 	}
-	
+
 	public void clearSearchParamField() {
 		this.getInventoryView().getSearchParamField().setText("");
 	}
 	
 	public InventoryGUI getInventoryView() {
 		return inventoryView;
+	}
+	
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Integer.parseInt(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
 	}
 	
 	public void setInventoryView(InventoryGUI inventoryView) {

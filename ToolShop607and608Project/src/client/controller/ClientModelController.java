@@ -1,6 +1,8 @@
 package client.controller;
 
 import server.Model.*;
+
+import java.io.EOFException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -22,7 +24,7 @@ public class ClientModelController {
 		return this.getClientController().getSocketInStrings().readLine();
 	}
 
-	public void readToolsFromServer() throws ClassNotFoundException, IOException {
+	public void readToolsFromServer() throws ClassNotFoundException, IOException, EOFException {
 		Tool tool = (Tool) this.getClientController().getSocketInObjects().readObject();
 		while (tool != null) {
 			this.getShop().getIm().addToolToList(tool);

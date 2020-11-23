@@ -76,11 +76,16 @@ public class ServerModelController {
 	
 	public void orderMoreTools(String name) {
 		String [] arr = this.getDataBaseController().getIdbController().queryByName(name);
+		if (arr == null) {
+			this.sendMarkerStringToClient("Please enter a valid Tool to decrease.");
+			return;
+		}
 		this.buildTools(arr);
 		this.getShop().buildOrderLine();
 		this.insertOrderIntoDatabase();
 		this.insertOrderLineIntoDatabase();
 		this.updateToolQuantityInDatabase(name, this.getShop().getIm().getToolInventory().get(0).getQuantity());
+		this.sendMarkerStringToClient("Tool quantity decreased successfully.");
 	}
 	
 	public void updateToolQuantityInDatabase(String name, int quantity) {
@@ -99,12 +104,16 @@ public class ServerModelController {
 				this.getShop().getIm().getOrder().getOrderLines().get(0).getOrderQuantity());
 	}
  	
-	public void buildTools(String[] rawTool) {
+	public void buildTools(String[] rawTool) throws NumberFormatException {
+		if (rawTool == null)
+			return;
 		this.getShop().buildTool(Integer.parseInt(rawTool[0]), rawTool[1], Integer.parseInt(rawTool[2]), 
 								Double.parseDouble(rawTool[3]), Integer.parseInt(rawTool[4]), rawTool[5], rawTool[6]);
 	}
 	
-	public void buildTools(ArrayList<String[]> rawTools) {
+	public void buildTools(ArrayList<String[]> rawTools) throws NumberFormatException {
+		if (rawTools == null)
+			return;
 		for (String[] i: rawTools) {
 			this.getShop().buildTool(Integer.parseInt(i[0]), i[1], Integer.parseInt(i[2]), Double.parseDouble(i[3]), 
 									 Integer.parseInt(i[4]), i[5], i[6]);
@@ -143,14 +152,16 @@ public class ServerModelController {
 		return this.getDataBaseController().getCdbController().queryCustomerTypes(type);
 	}
 	
-	//ERROR HANDLING HERE
-	public void buildCustomers(String[] rawCustomer) {
+	public void buildCustomers(String[] rawCustomer) throws NumberFormatException {
+		if (rawCustomer == null)
+			return;
 		this.getShop().buildCustomer(Integer.parseInt(rawCustomer[0]), rawCustomer[1], rawCustomer[2], rawCustomer[3], 
 													  rawCustomer[4], rawCustomer[5], rawCustomer[6]);
 	}
 		
-	//ERROR HANDLING HERE
-	public void buildCustomers(ArrayList<String[]> rawCustomers) {
+	public void buildCustomers(ArrayList<String[]> rawCustomers) throws NumberFormatException {
+		if (rawCustomers == null)
+			return;
 		for (String[] i: rawCustomers)
 			this.getShop().buildCustomer(Integer.parseInt(i[0]), i[1], i[2], i[3], i[4], i[5], i[6]);
 	}
