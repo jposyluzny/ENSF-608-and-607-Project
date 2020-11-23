@@ -4,18 +4,36 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import com.mysql.cj.jdbc.Driver;
 import java.util.ArrayList;
 
+/**
+ * This class is responsible for working with the Tools table in the MySQL database.
+ */
+
 public class InventoryDBController implements ConnectDetailsContainer{
 	
+	/**
+	 * The Connection object conn will be used to establish the connection to the database and create statements.
+	 * The PreparedStatement object pstmt will be used to insert data into the Tool table in the database.
+	 * The Statement object stmt will be used to execute database queries and updates.
+	 * The ResultSet object rs is what will be returned when executing a query. When we need a query result to be sent back to the 
+	 * client, the ResultSet object will be parsed into string arrays.
+	 * The ResultSetMetaData object rsmd will be used to find the amount of columns in the ResultSet in order to dynamically
+	 * size the result arrays in the resultsToArray() method.
+	 */
 	private Connection conn;
 	private PreparedStatement pstmt;
 	private Statement stmt;
 	private ResultSet rs;
+	private ResultSetMetaData rsmd;
 	
+	/**
+	 * The connect() method needs to be called in order to establish a connection to the database.
+	 */
 	public void connect() {
 		try {
 			Driver driver = new com.mysql.cj.jdbc.Driver();
@@ -28,17 +46,18 @@ public class InventoryDBController implements ConnectDetailsContainer{
 			e.printStackTrace();
 		}
 	}
-	
-	public void close() {
-		try {
-			stmt.close();
-			rs.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
+
+	/**
+	 * The insertIntoToolTable() method will take the parameters required in order to insert a new row into the table, create a 
+	 * PreparedStatement object, and use the object to insert the inputs into the table.
+	 * @param id is the ID number of the tool
+	 * @param name is the name of the tool
+	 * @param quantity is the quantity of the tool
+	 * @param price is the price of the tool
+	 * @param supplierId is the supplierId of the tool
+	 * @param type is the type of the tool
+	 * @param powerType is the powerType of the tool
+	 */
 	public void insertIntoToolTable(int id, String name, int quantity, double price, int supplierId, String type, String powerType) {
 		try {
 			String insertTool = "INSERT INTO TOOLTABLE(TOOLID, NAME, QUANTITY, PRICE, SUPPLIERID, TYPE, POWERTYPE) VALUES (?,?,?,?,?,?,?)";
@@ -56,10 +75,17 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		}
 	}
 	
+	/**
+	 * The resultsToArray() method will take a ResultSet object, which is the result of a query, and parse each row of the ResultSet into
+	 * an array of strings.
+	 * @param rs is the ResultSet that is returned after a query
+	 * @return an array of strings, populated with the results of the query
+	 */
 	public String[] resultsToArray(ResultSet rs) {
 		String[] arr = null;
 		try {
-			arr = new String[7];
+			rsmd = rs.getMetaData();
+			arr = new String[rsmd.getColumnCount()];
 			for(int i = 0; i < arr.length; i++) {
 				arr[i] = rs.getString(i+1);
 			}
@@ -69,6 +95,11 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		return arr;
 	}
 	
+	/**
+	 * The queryAllTools() method will search the entire table of tools, call the resultsToArray() method on every row in the table,
+	 * and add each returned array to an ArrayList, which is returned at the end.
+	 * @return the ArrayList of String arrays that are populated with all of the tool data
+	 */
 	public ArrayList<String[]> queryAllTools() {
 		ArrayList<String[]> toolList = new ArrayList<String[]>();
 		String queryAllTools = "SELECT * FROM TOOLTABLE";
@@ -89,6 +120,12 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		return toolList;
 	}
 	
+	/**
+	 * The executeToolQuery() method will take a query as a parameter, try to execute the query, and then return the result of
+	 * the query in an array of Strings.
+	 * @param queryTool is the query to be executed
+	 * @return the String array that is found as a result of the query
+	 */
 	public String[] executeToolQuery(String queryTool) {
 		String[] toolInfo = null;
 		try {
@@ -108,16 +145,30 @@ public class InventoryDBController implements ConnectDetailsContainer{
 		return toolInfo;
 	}
 	
+	/**
+	 * The queryByName() method will take a tool name as a parameter, and will build the query based off of that.
+	 * @param toolName is the name of the tool to be searched for
+	 * @return the result of the executeToolQuery() method, which is an array of Strings
+	 */
 	public String[] queryByName(String toolName) {
 		String queryName = "SELECT * FROM TOOLTABLE WHERE NAME = '" +toolName+ "'";
 		return executeToolQuery(queryName);
 	}
 	
+	/**
+	 * The queryById method will take a tool id as a parameter, and will build the query based off of that.
+	 * @param id is the id of the tool to be searched for
+	 * @return the result of the executeToolQuery() method, which is an array of Strings
+	 */
 	public String[] queryById(int id) {
-		String queryId = "SELECT * FROM TOOLTABLE WHERE TOOLID = " +id+ "";
+		String queryId = "SELECT * FROM TOOLTABLE WHERE TOOLID = " +id;
 		return executeToolQuery(queryId);
 	}
 	
+	/**
+	 * The decreaseQuantity() method will take a tool name as a parameter, and will build the update statement based off of that.
+	 * @param toolName is the name of the tool whose quantity will be reduced
+	 */
 	public void decreaseQuantity(String toolName) {
         String queryId = "UPDATE TOOLTABLE SET QUANTITY = QUANTITY-1 WHERE NAME = '" +toolName+ "'";
         try {
@@ -127,4 +178,18 @@ public class InventoryDBController implements ConnectDetailsContainer{
             e.printStackTrace();
         }
     }
+	
+	/**
+	 * The close() method will close the Connection, PreparedStatement, Statement, and ResultSet objects.
+	 */
+	public void close() {
+		try {
+			pstmt.close();
+			stmt.close();
+			rs.close();
+			conn.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }
