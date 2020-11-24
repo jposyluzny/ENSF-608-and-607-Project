@@ -1,7 +1,16 @@
-package server.Model;
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
 
+package server.Model;
 import java.io.Serializable;
 
+/**
+ * This class will be used as a superclass for the Electrical and NonElectrical subclasses. It implements Serializable, as Tool objects will need
+ * to be passed between the client and server sockets.
+ */
 public abstract class Tool implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -9,6 +18,15 @@ public abstract class Tool implements Serializable {
     private int quantity, supplierID, toolID;
     private double price;
 
+    /**
+     * The Tool constructor takes all the following parameters to construct a Tool object. This constructor will be called in the
+     * Electrical and NonElectrical subclasses.
+     * @param toolName is the name of the tool
+     * @param quantity is the initial quantity of the tool
+     * @param price is the price of the tool
+     * @param supplierID is the ID number of the tool's supplier
+     * @param toolID is the ID number of the tool
+     */
     public Tool (String toolName, int quantity, double price, int supplierID, int toolID) {
         this.setToolName(toolName);
         this.setQuantity(quantity);
@@ -17,7 +35,6 @@ public abstract class Tool implements Serializable {
         this.setPrice(price);
     }
 
-    //These are all getters and setters
     public String getToolName() {
         return this.toolName;
     }
@@ -58,6 +75,9 @@ public abstract class Tool implements Serializable {
         this.price = price;
     }
     
+    /**
+     * The following abstract methods will be implemented by the Electrical and NonElectrical subclasses.
+     */
     public abstract String getType();
 
     public abstract void setType(String type);
