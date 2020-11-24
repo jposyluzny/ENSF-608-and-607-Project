@@ -54,6 +54,7 @@ public class ServerController implements Runnable, server.SocketConnectionContai
     
     public void close() {
     	try {
+    		pool.shutdown();
     		serverSocket.close();
     	} catch (IOException e) {
     		e.printStackTrace();

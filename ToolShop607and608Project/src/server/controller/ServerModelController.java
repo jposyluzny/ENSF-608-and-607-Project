@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class is responsible for managing the communication between the Model and Controller packages.
@@ -148,11 +149,17 @@ public class ServerModelController {
 			return;
 		}
 		this.buildTools(arr);
-		this.getShop().buildOrderLine();
-		this.insertOrderIntoDatabase();
-		this.insertOrderLineIntoDatabase();
-		this.updateToolQuantityInDatabase(name, this.getShop().getIm().getToolInventory().get(0).getQuantity());
-		this.sendMarkerStringToClient("Tool quantity decreased successfully.");
+		if (!this.getShop().getIm().needToOrderMoreTools()) {
+			this.sendMarkerStringToClient("Do not need to order more tools.");
+			return;
+		}
+		else {
+			this.getShop().buildOrderLine();	
+			this.insertOrderIntoDatabase();
+			this.insertOrderLineIntoDatabase();
+			this.updateToolQuantityInDatabase(name, this.getShop().getIm().getToolInventory().get(0).getQuantity());
+			this.sendMarkerStringToClient("Tool quantity decreased successfully.");
+		}
 	}
 	
 	/**
