@@ -31,13 +31,23 @@ public class CustomerViewController {
 	class SearchForCustomer implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if (checkSearchByIDRadioButton())
-				getClientModelController().getClientController().getSocketOut().println("Search for Customer by ID");
-			else if (checkSearchByLastNameRadioButton())
+			if (checkSearchByIDRadioButton()) {
+				if (isNumeric(getCustomerView().getParameterField().getText())) {
+					getClientModelController().getClientController().getSocketOut().println("Search for Customer by ID");
+					sendDataToServer();
+				}
+			}
+			else if (checkSearchByLastNameRadioButton()) {
 				getClientModelController().getClientController().getSocketOut().println("Search for Customer by last name");
-			else if (checkSearchByClientTypeRadioButton())
+				sendDataToServer();
+			}
+			else if (checkSearchByClientTypeRadioButton()) {
 				getClientModelController().getClientController().getSocketOut().println("Search for all Customers by type");
-			
+				sendDataToServer();
+			}
+			}
+		
+		public void sendDataToServer() {
 			getClientModelController().getClientController().getSocketOut().println(getCustomerView().getParameterField().getText());
 		}
 		
@@ -100,6 +110,15 @@ public class CustomerViewController {
 		public void actionPerformed(ActionEvent e) {
 			clearClientInfoFields();
 		}
+	}
+	
+	public static boolean isNumeric(String str) { 
+		  try {  
+		    Integer.parseInt(str);  
+		    return true;
+		  } catch(NumberFormatException e){  
+		    return false;  
+		  }  
 	}
 	
 	public ArrayList<String> fetchAllCustomerInfo () {

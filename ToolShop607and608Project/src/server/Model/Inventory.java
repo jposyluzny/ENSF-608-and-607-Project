@@ -42,10 +42,8 @@ public class Inventory {
 	public void buildTool(String toolName, int quantity, double price, int supplierID, int toolID, String type, String powerInfo) {
 		if (type.toLowerCase().equals("electrical")) 
         	this.addToolToList(new Electrical(toolName, quantity, price, supplierID, toolID, type, powerInfo));
-		
         else if (type.toLowerCase().equals("non-electrical")) 
         	this.addToolToList(new NonElectrical(toolName, quantity, price, supplierID, toolID, type));
-		
         else 
         	System.err.println("CUSTOMER TYPE DOES NOT EXIST");
     }

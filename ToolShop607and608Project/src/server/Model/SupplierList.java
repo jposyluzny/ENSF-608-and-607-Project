@@ -37,10 +37,8 @@ public class SupplierList {
     public void buildSupplier (String name, String address, String contactInfo, int supplierID, String type, double importTax) {
     	if (type.toLowerCase().equals("international")) 
     		this.addToolToList(new International(name, address, contactInfo, supplierID, type, importTax));
-    	
     	else if (type.toLowerCase().equals("local")) 
     		this.addToolToList(new Local(name, address, contactInfo, supplierID, type));
-    	
     	else 
     		System.err.println("CUSTOMER TYPE DOES NOT EXIST");
     }

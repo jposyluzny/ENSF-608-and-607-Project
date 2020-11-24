@@ -38,10 +38,8 @@ public class CustomerList {
     public void buildCustomer(int customerID, String firstName, String lastName, String address, String postalCode, String phoneNumber, String type) {
         if (type.toLowerCase().equals("r")) 
         	this.addCustomerToList(new Residential(customerID,firstName,lastName,address,postalCode,phoneNumber,type));
-        
         else if (type.toLowerCase().equals("c")) 
         	this.addCustomerToList(new Commercial(customerID,firstName,lastName,address,postalCode,phoneNumber,type));
-        
         else 
         	System.err.println("CUSTOMER TYPE DOES NOT EXIST");
     }
