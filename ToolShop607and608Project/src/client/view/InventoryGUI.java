@@ -1,9 +1,17 @@
-package client.view;
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
 
+package client.view;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is responsible for building the Inventory GUI.
+ */
 public class InventoryGUI {
 	
 	private JButton searchButton, listAllToolsButton;
@@ -11,10 +19,16 @@ public class InventoryGUI {
 	private JTextField searchParamField;
 	private JTextArea resultsArea;
 	
+	/**
+	 * The InventoryGUI constructor will call the build() method.
+	 */
 	public InventoryGUI () {
 		this.buildGUI();
 	}
 	
+	/**
+	 * The buildGUI() method will build the entire GUI.
+	 */
 	public void buildGUI() {	
 		JPanel panel1 = new JPanel();
 		JLabel enterParamsLabel = new JLabel("Enter the search parameter below");

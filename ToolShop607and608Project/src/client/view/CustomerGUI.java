@@ -1,10 +1,18 @@
-package client.view;
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
 
+package client.view;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * This class is responsible for building the Customer GUI.
+ */
 public class CustomerGUI {
 
 	private JButton searchButton, clearSearchButton, saveButton, deleteButton, clearButton, addCustomerButton;
@@ -12,24 +20,43 @@ public class CustomerGUI {
 	private JTextField parameterField, clientIdBox, firstNameBox, lastNameBox, addressBox, postalCodeBox, phoneNumberBox, typeBox;
 	private JList<String> resultsList;
 
+	/**
+	 * The CustomerGUI constructor will call the build() method.
+	 */
 	public CustomerGUI() {
 		this.buildGUI();
 	}
 	
+	/**
+	 * The setBoldLabelFont() method will take a JLabel object and set the font to bold
+	 * @param label is the JLabel to be set to bold
+	 */
 	public void setBoldLabelFont(JLabel label) {
 		Font font = new Font(label.getFont().getName(), Font.BOLD,label.getFont().getSize());
 		label.setFont(font);
 	}
 	
+	/**
+	 * The setBoxBorder() method will take a JTextField object and set the border to black
+	 * @param box is the JTextField to be assigned a black border
+	 */
 	public void setBoxBorder(JTextField box) {
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		box.setBorder(border);
 	}
 	
+	/**
+	 * The createCenteredLabel() will take a title and build a new centered JLabel with the input parameter
+	 * @param title is the title of the label
+	 * @return the centered JLabel
+	 */
 	public JLabel createCenteredLabel(String title) {
 		return new JLabel(title, SwingConstants.CENTER);
 	}
 	
+	/**
+	 * The buildGUI() method will build the entire GUI.
+	 */
 	public void buildGUI() {
 		
 		JPanel panel1 = new JPanel();
