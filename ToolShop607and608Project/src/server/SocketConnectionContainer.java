@@ -7,8 +7,7 @@ package server;
  */
 
 /**
- * This class will hold the details and getter methods for the socket Host and Port data fields required for Clients to connect to
- * to the server.
+ * This interface holds the socket host and port information.
  */
 public interface SocketConnectionContainer {
 	

@@ -1,19 +1,18 @@
-package client.view;
-
 /**
  * Date: November 23, 2020
  * @author Patrick Pickard, Josh Posyluzny
  * Project: 607/608 Joint Project
  */
 
+package client.view;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-
 /**
- * This class will handle building the physical GUI to handle user interaction with Customers.
+ * This class is responsible for building the Customer GUI.
  */
 public class CustomerGUI {
 
@@ -23,15 +22,15 @@ public class CustomerGUI {
 	private JList<String> resultsList;
 
 	/**
-	 * Constructor will call the buildGUI method.
+	 * The CustomerGUI constructor will call the build() method.
 	 */
 	public CustomerGUI() {
 		this.buildGUI();
 	}
 	
 	/**
-	 * This will set the format of the label fonts in the GUI.
-	 * @param label is the instance to set the font of, in this case, it is for the JLabel objects.
+	 * The setBoldLabelFont() method will take a JLabel object and set the font to bold
+	 * @param label is the JLabel to be set to bold
 	 */
 	public void setBoldLabelFont(JLabel label) {
 		Font font = new Font(label.getFont().getName(), Font.BOLD,label.getFont().getSize());
@@ -39,8 +38,8 @@ public class CustomerGUI {
 	}
 	
 	/**
-	 * This will set the format of the JTextField borders.
-	 * @param box is the instance of the JTextField to set the border on.
+	 * The setBoxBorder() method will take a JTextField object and set the border to black
+	 * @param box is the JTextField to be assigned a black border
 	 */
 	public void setBoxBorder(JTextField box) {
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);

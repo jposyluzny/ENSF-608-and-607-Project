@@ -1,10 +1,10 @@
-package client.view;
-
 /**
  * Date: November 23, 2020
  * @author Patrick Pickard, Josh Posyluzny
  * Project: 607/608 Joint Project
  */
+
+package client.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +21,7 @@ public class InventoryGUI {
 	private JTextArea resultsArea;
 	
 	/**
-	 * Constructor will call the buildGUI method.
+	 * The InventoryGUI constructor will call the build() method.
 	 */
 	public InventoryGUI () {
 		this.buildGUI();

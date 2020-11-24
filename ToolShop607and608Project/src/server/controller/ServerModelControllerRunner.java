@@ -1,15 +1,32 @@
-package server.controller;
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
 
+package server.controller;
 import server.Model.Shop;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * This class extends the ServerModelController class, and implements Runnable so it can run on threads.
+ */
 public class ServerModelControllerRunner extends ServerModelController implements Runnable {
 
+	/**
+	 * The ServerControllerRunner constructor calls the super ServerModelController constructor. 
+	 * @param server is the ServerController object
+	 * @param dataBaseController is the dataBaseController object
+	 * @param shop is the Shop object
+	 */
 	public ServerModelControllerRunner(ServerController server, DBController dataBaseController, Shop shop) {
 		super(server, dataBaseController, shop);
 	}
 
+	/**
+	 * The run() method will call the methods in the ServerModelController class and communicate with the client.
+	 */
 	public void run() {
 		this.connectToDatabases();
 		while (true) {
@@ -61,13 +78,13 @@ public class ServerModelControllerRunner extends ServerModelController implement
 					break;
 				case "Add new Customer":
 					this.sendMarkerStringToClient("Add new Customer");
-					rawCustomersIn = (ArrayList<String>) this.listendForClientObjectsInfo();
+					rawCustomersIn = (ArrayList<String>) this.listenForClientObjectsInfo();
 					this.addNewCustomerToDatabase(rawCustomersIn);
 					this.sendMarkerStringToClient("Customer information added to database successfully.");
 					break;
 				case "Update existing Customer":
 					this.sendMarkerStringToClient("Update existing Customer");
-					rawCustomersIn = (ArrayList<String>) this.listendForClientObjectsInfo();
+					rawCustomersIn = (ArrayList<String>) this.listenForClientObjectsInfo();
 					this.updateExistingCustomerInDatabase(rawCustomersIn);
 					this.sendMarkerStringToClient("Customer information updated successfully.");
 					break;

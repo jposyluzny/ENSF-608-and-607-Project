@@ -1,6 +1,14 @@
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
+
 package server.controller;
 
-//NOTE: THE DB_URL AND CREDENTIALS NEED TO BE CHANGED BETWEEN JOSH AND PATRICK WHEN BEING WORKED ON TO CONNECT TO DB
+/**
+ * This interface contains the JDBC driver, database url, and database credentials.
+ */
 
 public interface ConnectDetailsContainer {
 	
@@ -9,6 +17,6 @@ public interface ConnectDetailsContainer {
 	   static final String DB_URL = "jdbc:mysql://localhost:3306/608607project";
 
 	   //  Database credentials
-	   static final String USERNAME = "root";
+	   static final String USERNAME = "josh";
 	   static final String PASSWORD = "password";
 }

@@ -1,5 +1,10 @@
-package server.controller;
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
 
+package server.controller;
 import server.Model.Shop;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -7,12 +12,19 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.io.IOException;
 
+/**
+ * This class is responsible for running the server. The socket host and port information is supplied by the SocketConnectionContainer interface,
+ * and the ServerController implements Runnable to allow the server to run on threads.
+ */
 public class ServerController implements Runnable, server.SocketConnectionContainer {
     
     private Socket sSocket;
     private ServerSocket serverSocket;
 	private ExecutorService pool;
     
+	/**
+	 * The ServerController constructor creates a new ServerSocket object, and assigns the ExecutorService object pool a new cached thread pool.
+	 */
     public ServerController() {
     	try {
     		serverSocket = new ServerSocket(PORT);
@@ -23,6 +35,9 @@ public class ServerController implements Runnable, server.SocketConnectionContai
     	}
     }
     
+    /**
+     * The run() method calls the ServerModelControllerRunner constructor, and the ExecutorService object pool executes the ServerModelControllerRunner object.
+     */
 	public void run() {
 		try {
 			while (true) {
