@@ -1,5 +1,10 @@
-package server.controller;
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
 
+package server.controller;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -172,11 +177,21 @@ public class InventoryDBController implements ConnectDetailsContainer{
         executeToolUpdate(queryId);
     }
 	
+	/**
+	 * The updateQuantity() method will take the name of a tool and the quantity of that tool, and then the quantity of that tool
+	 * will be updated to the input quantity in the SQL database.
+	 * @param name is the name of the tool to be queried
+	 * @param quantity is the quantity of the tool to be set in the database
+	 */
 	public void updateQuantity(String name, int quantity) {
 		String updateToolQuantity = "UPDATE TOOLTABLE SET QUANTITY = " +quantity+ " WHERE NAME = '" +name+"'";
 		executeToolUpdate(updateToolQuantity);
 	}
 	
+	/**
+	 * The executeToolUpdate() method will take an update query String, and execute it.
+	 * @param updateQuery is the update query to be executed.
+	 */
 	public void executeToolUpdate(String updateQuery) {
 		try {
 			stmt = conn.createStatement();

@@ -1,5 +1,10 @@
-package server.controller;
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
 
+package server.controller;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -240,11 +245,5 @@ public class CustomerDBController  implements ConnectDetailsContainer{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public static void main(String[] args) {
-		CustomerDBController cdbc = new CustomerDBController();
-		cdbc.connect();
-		cdbc.addNewCustomer("Josh", "Polysporin", "126 West Chipperton", "D0D 0F6", "123-456-7890", "C");
 	}
 }
