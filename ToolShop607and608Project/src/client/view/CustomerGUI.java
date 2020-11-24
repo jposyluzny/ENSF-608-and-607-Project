@@ -1,10 +1,20 @@
 package client.view;
 
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+
+/**
+ * This class will handle building the physical GUI to handle user interaction with Customers.
+ */
 public class CustomerGUI {
 
 	private JButton searchButton, clearSearchButton, saveButton, deleteButton, clearButton, addCustomerButton;
@@ -12,24 +22,43 @@ public class CustomerGUI {
 	private JTextField parameterField, clientIdBox, firstNameBox, lastNameBox, addressBox, postalCodeBox, phoneNumberBox, typeBox;
 	private JList<String> resultsList;
 
+	/**
+	 * Constructor will call the buildGUI method.
+	 */
 	public CustomerGUI() {
 		this.buildGUI();
 	}
 	
+	/**
+	 * This will set the format of the label fonts in the GUI.
+	 * @param label is the instance to set the font of, in this case, it is for the JLabel objects.
+	 */
 	public void setBoldLabelFont(JLabel label) {
 		Font font = new Font(label.getFont().getName(), Font.BOLD,label.getFont().getSize());
 		label.setFont(font);
 	}
 	
+	/**
+	 * This will set the format of the JTextField borders.
+	 * @param box is the instance of the JTextField to set the border on.
+	 */
 	public void setBoxBorder(JTextField box) {
 		Border border = BorderFactory.createLineBorder(Color.BLACK, 1);
 		box.setBorder(border);
 	}
 	
+	/**
+	 * Formats the JLabels.
+	 * @param title is the String to display on the label.
+	 * @return will return the label with the centered format.
+	 */
 	public JLabel createCenteredLabel(String title) {
 		return new JLabel(title, SwingConstants.CENTER);
 	}
 	
+	/**
+	 * This will construct and display the GUI.
+	 */
 	public void buildGUI() {
 		
 		JPanel panel1 = new JPanel();
@@ -157,26 +186,50 @@ public class CustomerGUI {
 		frame.setVisible(true);
 	}
 	
+	/**
+	 * This will add an actionListener to search button object.
+	 * @param a is the class implementing the ActionListener interface and overriding the actionPerformed method.
+	 */
 	public void addSearchListener(ActionListener a) {
 		this.getSearchButton().addActionListener(a);
 	}
 	
+	/**
+	 * This will add an actionListener to customer search button object.
+	 * @param a is the class implementing the ActionListener interface and overriding the actionPerformed method.
+	 */
 	public void addAddCustomerLitener(ActionListener a) {
 		this.getAddCustomerButton().addActionListener(a);
 	}
 	
+	/**
+	 * This will add an actionListener to customer save button object.
+	 * @param a is the class implementing the ActionListener interface and overriding the actionPerformed method.
+	 */
 	public void addSaveListener(ActionListener a) {
 		this.getSaveButton().addActionListener(a);
 	}
 	
+	/**
+	 * This will add an actionListener to customer delete button object.
+	 * @param a is the class implementing the ActionListener interface and overriding the actionPerformed method.
+	 */
 	public void addDeleteListener(ActionListener a) {
 		this.getDeleteButton().addActionListener(a);
 	}
 	
+	/**
+	 * This will add an actionListener to customer parameter search clear button object.
+	 * @param a is the class implementing the ActionListener interface and overriding the actionPerformed method.
+	 */
 	public void addClearSearchListener(ActionListener a) {
 		this.getClearSearchButton().addActionListener(a);
 	}
 	
+	/**
+	 * This will add an actionListener to customer info fields clear button object.
+	 * @param a is the class implementing the ActionListener interface and overriding the actionPerformed method.
+	 */
 	public void addClearClientInfoListener(ActionListener a) {
 		this.getClearButton().addActionListener(a);
 	}

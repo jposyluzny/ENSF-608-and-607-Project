@@ -1,5 +1,11 @@
 package client.controller;
 
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
+
 import server.Model.Shop;
 import java.net.Socket;
 import java.io.IOException;
@@ -9,6 +15,9 @@ import java.io.ObjectOutputStream;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 
+/**
+ * This class will handle the communication between the client and the server.
+ */
 public class ClientController implements server.SocketConnectionContainer {
 
     private Socket clientSocket;
@@ -17,6 +26,9 @@ public class ClientController implements server.SocketConnectionContainer {
     private PrintWriter socketOut;
     private ObjectOutputStream socketOutObjects;
     
+    /**
+     * This constructor will build all of the reader and writer objects that will handle socket communication with the server.
+     */
     public ClientController() {
         try {
             this.setClientSocket(new Socket(HOST, getPort()));
@@ -29,6 +41,9 @@ public class ClientController implements server.SocketConnectionContainer {
         }
     }
     
+    /**
+     * This will close all of the reader and writer objects to prevent any potential memory issues.
+     */
     public void close() {
     	try {
     		socketInObjects.close();
@@ -87,6 +102,10 @@ public class ClientController implements server.SocketConnectionContainer {
 		return PORT;
 	}
 	
+	/**
+	 * This will physically start the client side application.
+	 * @param args is an array of strings that will be read from an external run command.
+	 */
     public static void main(String [] args) {
         ClientController client = new ClientController();
         ClientModelControllerRunner cmcr = new ClientModelControllerRunner(client, new Shop());

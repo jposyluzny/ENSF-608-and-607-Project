@@ -1,9 +1,18 @@
 package client.view;
 
+/**
+ * Date: November 23, 2020
+ * @author Patrick Pickard, Josh Posyluzny
+ * Project: 607/608 Joint Project
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+/**
+ * This class will handle building the physical GUI to handle user interaction with Tools.
+ */
 public class InventoryGUI {
 	
 	private JButton searchButton, listAllToolsButton;
@@ -11,10 +20,16 @@ public class InventoryGUI {
 	private JTextField searchParamField;
 	private JTextArea resultsArea;
 	
+	/**
+	 * Constructor will call the buildGUI method.
+	 */
 	public InventoryGUI () {
 		this.buildGUI();
 	}
 	
+	/**
+	 * This will construct and display the GUI.
+	 */
 	public void buildGUI() {	
 		JPanel panel1 = new JPanel();
 		JLabel enterParamsLabel = new JLabel("Enter the search parameter below");
@@ -64,10 +79,18 @@ public class InventoryGUI {
 		frame.setVisible(true); 
 	}
 	
+	/**
+	 * This will add an actionListener to search for all tools button object.
+	 * @param a is the class implementing the ActionListener interface and overriding the actionPerformed method.
+	 */
 	public void addSearchForAllToolsListener(ActionListener a) {
 		this.getListAllToolsButton().addActionListener(a);
 	}
 	
+	/**
+	 * This will add an actionListener to search button object.
+	 * @param a is the class implementing the ActionListener interface and overriding the actionPerformed method.
+	 */
 	public void addSearchListener(ActionListener a) {
 		this.getSearchButton().addActionListener(a);
 	}
