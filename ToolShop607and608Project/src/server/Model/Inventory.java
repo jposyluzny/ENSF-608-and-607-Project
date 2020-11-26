@@ -74,7 +74,6 @@ public class Inventory {
 	 */
 	public void buildOrderLine() {
 		if (needToOrderMoreTools()) {
-			System.out.println("Inside build OrderLine in Inventory if statement.");
 			this.newOrder();
 			this.getOrder().createNewOrderLine(this.getToolInventory().get(0).getToolID(), 
 											   this.getToolInventory().get(0).getSupplierID(), this.numberOfToolsToOrder());
