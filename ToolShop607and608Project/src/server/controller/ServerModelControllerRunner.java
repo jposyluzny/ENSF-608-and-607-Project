@@ -115,8 +115,10 @@ public class ServerModelControllerRunner extends ServerModelController implement
 					this.buildCustomers(rawCustomersOut);
 					this.writeCustomersToClient();
 					break;
+				case "Dummy String":
+					break;
 				default:
-					System.err.println("Invalid command from client.");
+					System.err.println("Something went wrong...");
 				}
 			} catch (NumberFormatException e) {
 				this.sendMarkerStringToClient("Wrong input");

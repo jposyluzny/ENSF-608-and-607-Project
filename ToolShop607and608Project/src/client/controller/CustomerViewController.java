@@ -110,8 +110,16 @@ public class CustomerViewController {
 		 */
 		public void actionPerformed(ActionEvent e) {
 			try {
-				getClientModelController().getClientController().getSocketOut().println("Add new Customer");
-				getClientModelController().getClientController().getSocketOutObjects().writeObject(fetchAllCustomerInfo());
+				ArrayList<String> arr = fetchAllCustomerInfo();
+				if (arr == null) {
+					updateJList("Please ensure no fields are blank.");
+					getClientModelController().getClientController().getSocketOut().println("Dummy String");
+					return;
+				}
+				else {
+					getClientModelController().getClientController().getSocketOut().println("Add new Customer");
+					getClientModelController().getClientController().getSocketOutObjects().writeObject(arr);
+				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -143,8 +151,16 @@ public class CustomerViewController {
 		 */
 		public void actionPerformed(ActionEvent e) {
 			try {
-				getClientModelController().getClientController().getSocketOut().println("Update existing Customer");
-				getClientModelController().getClientController().getSocketOutObjects().writeObject(fetchAllCustomerInfo());
+				ArrayList<String> arr = fetchAllCustomerInfo();
+				if (arr == null) {
+					updateJList("Please ensure no fields are blank.");
+					getClientModelController().getClientController().getSocketOut().println("Dummy String");
+					return;
+				}
+				else {
+					getClientModelController().getClientController().getSocketOut().println("Update existing Customer");
+					getClientModelController().getClientController().getSocketOutObjects().writeObject(arr);
+				}
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -160,8 +176,16 @@ public class CustomerViewController {
 		 * This will be called when the Delete JButton is clicked.
 		 */
 		public void actionPerformed(ActionEvent e) {
-			getClientModelController().getClientController().getSocketOut().println("Remove customer from DB");
-			getClientModelController().getClientController().getSocketOut().println(fetchAllCustomerInfo().get(0));
+			ArrayList<String> arr = fetchAllCustomerInfo();
+			if (arr == null) {
+				updateJList("Please ensure no fields are blank.");
+				getClientModelController().getClientController().getSocketOut().println("Dummy String");
+				return;
+			}
+			else {
+				getClientModelController().getClientController().getSocketOut().println("Remove customer from DB");
+				getClientModelController().getClientController().getSocketOut().println(fetchAllCustomerInfo().get(0));
+			}
 		}
 	}
 	
@@ -205,7 +229,24 @@ public class CustomerViewController {
 		arr.add(this.getCustomerView().getPostalCodeBox().getText());
 		arr.add(this.getCustomerView().getPhoneNumberBox().getText());
 		arr.add(this.getCustomerView().getTypeBox().getText());
+		if (this.checkFieldsNotEmpty(arr)) {
+			arr.clear();
+			arr = null;
+		}
 		return arr;
+	}
+	
+	/**
+	 * This will check to see if any of the GUI fields are blank.
+	 * @param arr is the arrayList holding the Strings fetched from the GUI text fields.
+	 * @return is true if any of the fields are empty, and false if ALL of the fields contain text.
+	 */
+	public boolean checkFieldsNotEmpty (ArrayList<String> arr) {
+		for (String s: arr) {
+			if (s.length() == 0)
+				return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -271,8 +312,11 @@ public class CustomerViewController {
 	 * This will clear the main customers display area of the CustomerGUI.
 	 */
 	public void clearResultsPane() {
+		try {
 		DefaultListModel listModel = (DefaultListModel) this.getCustomerView().getResultsList().getModel();
         listModel.removeAllElements();
+		} catch (ClassCastException e) {
+		}
 	}
 	
 	/**
